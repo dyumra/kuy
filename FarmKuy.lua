@@ -19,7 +19,7 @@ local function teleportToTouchInterests(player)
             if parent and parent:IsA("BasePart") then
                 teleportToPart(player, parent)
                 collectedTouchInterests[descendant] = true
-                wait(0.1)
+                wait(0.5)
             end
         end
     end
