@@ -1,5 +1,5 @@
 -- CONFIG
-local requiredKey = "dev" -- รหัสที่ต้องใส่ก่อนใช้ GUI
+local requiredKey = "dyumra" -- รหัสที่ต้องใส่ก่อนใช้ GUI
 local maxKeyAttempts = 3
 local currentKeyAttempts = 0
 
