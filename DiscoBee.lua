@@ -79,7 +79,7 @@ while true do
     else
         textLabel.Text = "🔍 Target Eggs: " .. table.concat(_G.TargetNames, ", ") .. "\nStatus: 🔴 Rejoining Server...\nPowered by dyumra"
         sendNotification("🌐 System Notification", "No designated target eggs detected. Initiating server rejoin sequence.", 5, "rbxassetid://6034177218")
-        LocalPlayer:Kick(kickMessage)
+        --LocalPlayer:Kick(kickMessage)
         
         task.wait(rejoinDelay) 
         
