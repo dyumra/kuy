@@ -7,7 +7,7 @@ local LocalPlayer = Players.LocalPlayer
 local StarterGui = game:GetService("StarterGui")
 
 local rejoinDelay = 1 -- Delay before attempting to rejoin (seconds)
-local kickMessage = "🌐 System Notification: No designated target eggs were detected in this server. Initiating automatic server relocation. \n🔍 Scanning: Not found, find a new server. \n🎯 Target: Disco Bee 🌈🐝" -- Formal kick message
+local kickMessage = "🌐 System Notification: No designated target eggs \n🔍 Scanning: Not found, find a new server. \n🎯 Target: Disco Bee 🌈🐝" -- Formal kick message
 
 -- Create the GUI
 local screenGui = Instance.new("ScreenGui")
@@ -74,7 +74,7 @@ while true do
 
     if foundAnyTargetEgg then
         textLabel.Text = "🔍 Target Eggs: " .. table.concat(_G.TargetNames, ", ") .. "\nStatus: 🟢 Target Found: " .. foundEggName .. "\nPowered by dyumra"
-        sendNotification("🌐 System Notification", "Target identified: " .. foundEggName .. ". Process complete.", 10, "rbxassetid://136336226429075")
+        sendNotification("🌐 System Notification", "🎉 Target identified: " .. foundEggName .. ". Process complete.", 10, "rbxassetid://136336226429075")
         break -- Stop the script as a target was found
     else
         textLabel.Text = "🔍 Target Eggs: " .. table.concat(_G.TargetNames, ", ") .. "\nStatus: 🔴 Rejoining Server...\nPowered by dyumra"
