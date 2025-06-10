@@ -1,4 +1,10 @@
-_G.TargetNames = {"Disco Bee", "Queen Bee", "Dragonfly", "Red Fox"} -- Add all the Pet Egg names you want to find here. E.g., {"Dragonfly", "Queen Bee", "Phoenix Egg"}
+_G.TargetNames = {
+    "Disco Bee", 
+    "Queen Bee", 
+    "Dragonfly",
+    "Moth",
+    "Red Fox"
+}
 
 local DataSer = require(game:GetService("ReplicatedStorage").Modules.DataService)
 local TeleportService = game:GetService("TeleportService")
