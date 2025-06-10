@@ -52,7 +52,7 @@ while true do
     local foundEggName = ""
     
     textLabel.Text = "🔍 Target Eggs: " .. table.concat(_G.TargetNames, ", ") .. "\nStatus: ♻️ Scanning Server...\nPowered by dyumra"
-    sendNotification("🌐 System Notification", "Commencing server scan for target eggs.", 3, "rbxassetid://6034177218") -- Initial scan notification
+    sendNotification("🌐 System Notification", "Commencing server scan for target eggs.", 3, "rbxassetid://136336226429075") -- Initial scan notification
 
     for _, obj in pairs(DataSer:GetData().SavedObjects) do
         if obj.ObjectType == "PetEgg" then
@@ -74,11 +74,11 @@ while true do
 
     if foundAnyTargetEgg then
         textLabel.Text = "🔍 Target Eggs: " .. table.concat(_G.TargetNames, ", ") .. "\nStatus: 🟢 Target Found: " .. foundEggName .. "\nPowered by dyumra"
-        sendNotification("🌐 System Notification", "Target identified: " .. foundEggName .. ". Process complete.", 10, "rbxassetid://6034177218")
+        sendNotification("🌐 System Notification", "Target identified: " .. foundEggName .. ". Process complete.", 10, "rbxassetid://136336226429075")
         break -- Stop the script as a target was found
     else
         textLabel.Text = "🔍 Target Eggs: " .. table.concat(_G.TargetNames, ", ") .. "\nStatus: 🔴 Rejoining Server...\nPowered by dyumra"
-        sendNotification("🌐 System Notification", "No designated target eggs detected. Initiating server rejoin sequence.", 5, "rbxassetid://6034177218")
+        sendNotification("🚫 System Notification", "No designated target eggs detected. Initiating server rejoin sequence.", 5, "rbxassetid://136336226429075")
         --LocalPlayer:Kick(kickMessage)
         
         task.wait(rejoinDelay) 
