@@ -1,8 +1,10 @@
 _G.TargetNames = {
+    -- Mythic
     "Disco Bee", 
     "Queen Bee", 
     "Dragonfly",
-    "Moth",
+    "Raccoon",
+    -- Legendary
     "Red Fox"
 }
 
