@@ -72,7 +72,7 @@ local premiumUsers = {
     ["ymh_is666"] = {Tag = "idkkkkk0813", Time = "Times: Lifetime"},
     -- Freeium for emoji
     ["bunso9523"] = {Tag = "riqorshd", Time = "Days: 7"},
-    ["1"] = {Tag = "1", Time = "Days: 1 (24h)"},
+    ["SneekyOS"] = {Tag = "sneeky_os", Time = "Days: 7"},
     ["0"] = {Tag = "0", Time = "Days: 1 (24h)"},
 }
 
