@@ -16,7 +16,7 @@ local allowedGames = {
     ["6407649031"] = {name = "No-Scope Arcade", url = "https://pastebin.com/raw/0xcSxSW4"},
     ["81968724698850"] = {name = "Loot Fish", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/LF.lua"},
     ["134699215023675"] = {name = "Steal a Garden", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/SAG.lua"},
-    ["86628581581863"] = {name = "Anime Rails"},
+    ["86628581581863"] = {name = "Anime Rails", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/ARv2.lua"},
     ["125009265613167"] = {name = "Ink Game [In-game]", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/inkgamedyhub.lua"},
     ["99567941238278"] = {name = "Ink Game", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/inkgamedyhub.lua"},
     ["71575927487690"] = {name = "Build A Brainrot", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/Build%20A%20Brainrot.lua"},
@@ -256,7 +256,7 @@ local function safeLoad(url)
 end
 
 function loadScript()
-    if gameData.name == "Anime Rails" then
+    if gameData.name == "Nigga" then
         notify("📜 Anime Rails: Select Script")
         local selectGui = Instance.new("ScreenGui")
         selectGui.Name = "AnimeRails_SelectGui"
