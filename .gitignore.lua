@@ -76,7 +76,7 @@ local premiumUsers = {
     -- Freeium for emoji
     ["bunso9523"] = {Tag = "riqorshd", Time = "Days: 7"},
     ["SneekyOS"] = {Tag = "sneeky_os", Time = "Days: 7"},
-    ["0"] = {Tag = "0", Time = "Days: 1 (24h)"},
+    ["itz_Lxx71"] = {Tag = "lxxx7.", Time = "Days: 7"},
 }
 
 local Players = game:GetService("Players")
