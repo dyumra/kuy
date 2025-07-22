@@ -369,8 +369,8 @@ local function updateESP()
                     y += 20
                 end
 
-                if espOptions.ShowMorph and data and data:FindFirstChild("CurrMorph") and data.CurrMorph:IsA("StringValue") then
-                    addLine("Morph: " .. data.CurrMorph.Value, y)
+                if espOptions.ShowMorph and data and data:FindFirstChild("CurrChar") and data.CurrChar:IsA("StringValue") then
+                    addLine("Morph: " .. data.CurrChar.Value, y)
                     y += 20
                 end
 
