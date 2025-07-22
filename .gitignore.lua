@@ -72,6 +72,7 @@ local premiumUsers = {
     ["Yavib_Aga"] = {Tag = "yavib", Time = "Times: Lifetime"},
     ["YMH012"] = {Tag = "idkkkkk0813", Time = "Times: Lifetime"},
     ["ymh_is666"] = {Tag = "idkkkkk0813", Time = "Times: Lifetime"},
+    ["MeowyBee"] = {Tag = "meowybee", Time = "Times: Lifetime"},
     -- Freeium for emoji
     ["bunso9523"] = {Tag = "riqorshd", Time = "Days: 7"},
     ["SneekyOS"] = {Tag = "sneeky_os", Time = "Days: 7"},
