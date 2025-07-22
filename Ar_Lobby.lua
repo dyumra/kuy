@@ -42,8 +42,8 @@ local PartyTab = Window:Tab({ Title = "Auto Join", Icon = "handshake" })
 local GUI = Window:Tab({ Title = "Equip", Icon = "flame" })
 local GamepassTab = Window:Tab({ Title = "Gamepass", Icon = "cookie" })
 local PlayerTab = Window:Tab({ Title = "Player", Icon = "user" })
-local MiscTab = Window:Tab({ Title = "Misc", Icon = "cog" })
-local ConfigTab = Window:Tab({ Title = "Config", Icon = "file-cog" })
+local MiscTab = Window:Tab({ Title = "Misc", Icon = "file-cog" })
+local ConfigTab = Window:Tab({ Title = "Config", Icon = "cog" })
 
 -- Main Tab
 local event = ReplicatedStorage:WaitForChild("Events"):WaitForChild("ChangeValue")
