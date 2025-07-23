@@ -56,7 +56,7 @@ local AllowGameforPremium = {
     ["95702387256198"] = {name = "Steal a Car", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/SAC.lua"},
     ["11276071411"] = {name = "Be NPC or DIE", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/BeNpcOrDie.lua"},
     ["126244816328678"] = {name = "DIG", url = "https://raw.githubusercontent.com/PlayzlxD0tmatter/DIG-SCRIPT-ZERO/refs/heads/main/dig.md"},
-    ["9872472334"] = {name = "Evade", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/EVADE.lua"},
+    ["9872472334"] = {name = "Evade", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/Evadedyhub.lua"},
     ["5991163185"] = {name = "Spray Print", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/SP.lua"},
     ["10449761463"] = {name = "The Strongest Battleground", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/TSB.lua"},
 }
