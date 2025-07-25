@@ -31,7 +31,7 @@ local allowedGames = {
     ["136806264049477"] = {name = "Keys and Knives", url = "https://raw.githubusercontent.com/gumanba/Scripts/main/KeysandKnives"},
     ["79546208627805"] = {name = "99 Nights in the Forest", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/99dayv2test.lua"},
     ["126509999114328"] = {name = "99 Nights in the Forest [In-game]", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/99dayv2test.lua"},
-        ["110931811137535"] = {name = "Feed a Brainrot", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/fyb.lua"},
+    ["110931811137535"] = {name = "Feed a Brainrot", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/fyb.lua"},
 }
 
 local AllowGameforPremium = {
