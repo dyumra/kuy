@@ -137,7 +137,7 @@ local function clickTween(button)
     TweenService:Create(button, tweenInfo, {BackgroundColor3 = original}):Play()
 end
 
-local VALID_KEY = "THANK-FOR-SUBSCRIBE-DYHUB"
+local VALID_KEY = "DYHUBKEYS"
 
 local function createKeyGui()
     local keyGui = Instance.new("ScreenGui")
