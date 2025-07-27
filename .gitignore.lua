@@ -85,6 +85,10 @@ local premiumUsers = {
     ["0"] = {Tag = "0", Time = "Days: 0"},
     -- 1 Days free
     ["nvalidpro68"] = {Tag = "dzaky2323_45782", Time = "Days: 1"},
+    ["william8045353"] = {Tag = "sungdripwoooneshotter", Time = "Days: 1"},
+    ["0"] = {Tag = "0", Time = "Days: 1"},
+    ["0"] = {Tag = "0", Time = "Days: 1"},
+    ["0"] = {Tag = "0", Time = "Days: 1"},
     ["0"] = {Tag = "0", Time = "Days: 1"},
     ["0"] = {Tag = "0", Time = "Days: 1"},
     -- Freeium for emoji
