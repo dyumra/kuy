@@ -26,6 +26,7 @@ local allowedGames = {
     ["17126500142"] = {name = "Abyss Miner", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/AbssyMiner.lua"},
     ["99013571721937"] = {name = "Aether Adventure", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/AeA.lua"},
     ["139143597034555"] = {name = "+1 Speed Prison Escape [🦑]", url = "https://pastebin.com/raw/RKPm9zJB"},
+    ["17357719939"] = {name = "Wizard West", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/Ww.lua"},
     ["116495829188952"] = {name = "Dead Rails", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/Drlobby.lua"},
     ["70876832253163"] = {name = "Dead Rails [In-game]", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/DeadRails.lua"},
     ["136806264049477"] = {name = "Keys and Knives", url = "https://raw.githubusercontent.com/gumanba/Scripts/main/KeysandKnives"},
