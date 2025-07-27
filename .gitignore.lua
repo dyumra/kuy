@@ -83,6 +83,10 @@ local premiumUsers = {
     -- Boost Server discord
     ["Monkeycheese3365"] = {Tag = "meboop90", Time = "Days: 7"},
     ["0"] = {Tag = "0", Time = "Days: 0"},
+    -- 1 Days free
+    ["nvalidpro68"] = {Tag = "dzaky2323_45782", Time = "Days: 1"},
+    ["0"] = {Tag = "0", Time = "Days: 1"},
+    ["0"] = {Tag = "0", Time = "Days: 1"},
     -- Freeium for emoji
     ["bunso9523"] = {Tag = "riqorshd", Time = "Days: 7"},
     ["SneekyOS"] = {Tag = "sneeky_os", Time = "Days: 7"},
