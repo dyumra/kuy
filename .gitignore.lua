@@ -33,10 +33,10 @@ local allowedGames = {
     ["79546208627805"] = {name = "99 Nights in the Forest", url = "https://raw.githubusercontent.com/dyumra/dyumrascript-/refs/heads/main/99dayv2new.lua"},
     ["126509999114328"] = {name = "99 Nights in the Forest [In-game]", url = "https://raw.githubusercontent.com/dyumra/dyumrascript-/refs/heads/main/99dayv2new.lua"},
     ["110931811137535"] = {name = "Feed a Brainrot", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/fyb.lua"},
+    ["137925884276740"] = {name = "Build A Plane", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/BAP.lua"},
 }
 
 local AllowGameforPremium = {
-    ["137925884276740"] = {name = "Build A Plane", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/BAP.lua"},
     ["110239180142623"] = {name = "Tsunami Escape", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/TE.lua"},
     ["3101667897"] = {name = "Legends Of Speed", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/LOS.lua"},
     ["105141077088559"] = {name = "Anime RaiIs in-Game", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/ARAW.lua"},
