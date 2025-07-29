@@ -55,7 +55,7 @@ local AllowGameforPremium = {
     ["89744231770777"] = {name = "Dead Spells", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/DS.lua"},
     ["142823291"] = {name = "Murder Mystery 2", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/Mm2dyhubtest.lua"},
     ["126884695634066"] = {name = "Grow a Garden", url = "https://raw.githubusercontent.com/FatalLoots/GrowaGarden/refs/heads/main/EggESP.lua"},
-    ["13772394625"] = {name = "Blade Ball", url = "https://api.luarmor.net/files/v4/loaders/358ce1ec0b62491d7509e2d24afc9e88.lua"},
+    ["13772394625"] = {name = "Blade Ball", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/Bladeballdyhub.lua"},
     ["109983668079237"] = {name = "Steal a Brainrot", url = "https://raw.githubusercontent.com/Ayvathion/AV-On-Top/refs/heads/main/Loader.lua"},
     ["95702387256198"] = {name = "Steal a Car", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/SAC.lua"},
     ["11276071411"] = {name = "Be NPC or DIE", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/BeNpcOrDie.lua"},
