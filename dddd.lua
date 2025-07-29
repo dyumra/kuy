@@ -956,7 +956,7 @@ Tabs.BringFood:Button({Title="Bring Corn", Callback=function() bringItemsByName(
 Tabs.BringFood:Button({Title="Bring Carrot", Callback=function() bringItemsByName("Carrot") end})
 Tabs.BringFood:Button({Title="Bring Cake", Callback=function() bringItemsByName("Cake") end})
 Tabs.BringFood:Button({Title="Bring Morsel", Callback=function() bringItemsByName("Morsel") end})
-Tabs.BringFood:Button({Title="Bring Meat? Sandwich", Callback=function() bringItemsByName("Meat? Sandwich") end})
+Tabs.BringFood:Button({Title="Bring Meat? Sandwich", Callback=function() bringItemsByName("Meat? Sandwich")
 
 -- Item
 Tabs.BringItem:Button({Title="Bring Rope", Callback=function() bringItemsByName("Rope") end})
@@ -977,7 +977,7 @@ Tabs.BringItem:Button({Title="Bring UFO Scrap", Callback=function() bringItemsBy
 Tabs.BringItem:Button({Title="Bring Seed Box", Callback=function() bringItemsByName("Seed Box") end})
 Tabs.BringItem:Button({Title="Bring Coin Stack", Callback=function() bringItemsByName("Coin Stack") end})
 Tabs.BringItem:Button({Title="Bring Old Radio", Callback=function() bringItemsByName("Old Radio") end})
-Tabs.BringItem:Button({Title="Bring Chair", Callback=function() bringItemsByName("Chair") end})
+Tabs.BringItem:Button({Title="Bring Chair", Callback=function() bringItemsByName("Chair")
 
 -- General
 Tabs.BringGeneral:Button({Title="Bring Chili Seeds", Callback=function() bringItemsByName("Chili Seeds") end})
@@ -991,11 +991,10 @@ Tabs.BringGeneral:Button({Title="Bring Flashlight", Callback=function() bringIte
 Tabs.BringGeneral:Button({Title="Bring Strong Flashlight", Callback=function() bringItemsByName("Strong Flashlight") end})
 Tabs.BringGeneral:Button({Title="Bring Bandage", Callback=function() bringItemsByName("Bandage") end})
 Tabs.BringGeneral:Button({Title="Bring MedKit", Callback=function() bringItemsByName("MedKit") end})
-end})
 Tabs.BringGeneral:Button({Title="Bring Saplings", Callback=function() bringItemsByName("Saplings") end})
 Tabs.BringGeneral:Button({Title="Bring Stakes", Callback=function() bringItemsByName("Stakes") end})
 Tabs.BringGeneral:Button({Title="Bring Wolf Pelts", Callback=function() bringItemsByName("Wolf Pelts") end})
-Tabs.BringGeneral:Button({Title="Bring Bear Pelts", Callback=function() bringItemsByName("Bear Pelts") end})
+Tabs.BringGeneral:Button({Title="Bring Bear Pelts", Callback=function() bringItemsByName("Bear Pelts")
 
 local hitboxSettings = {All=false, Alien=false, Wolf=false, Bunny=false, Cultist=false, Bear=false, Show=false, Size=10}
 
