@@ -82,12 +82,9 @@ local premiumUsers = {
     ["itz_Lxx71"] = {Tag = "lxxx7.", Time = "Days: Lifetime"},
     ["SoraSixty"] = {Tag = "x_stayaroundme", Time = "Days: 7"}, -- 26/7/2025
     -- Boost Server discord
-    ["Monkeycheese3365"] = {Tag = "meboop90", Time = "Days: 7"}, -- 25/7/2025
+    ["Monkeycheese3365"] = {Tag = "meboop90", Time = "Days: 14"}, -- 25/7/2025
     ["0"] = {Tag = "0", Time = "Days: 0"},
     -- 1 Days free
-    ["nvalidpro68"] = {Tag = "dzaky2323_45782", Time = "Days: 1"},
-    ["william8045353"] = {Tag = "sungdripwoooneshotter", Time = "Days: 1"},
-    ["doloph21"] = {Tag = "yaya0711_78320", Time = "Days: 1"},
     ["0"] = {Tag = "0", Time = "Days: 1"},
     ["0"] = {Tag = "0", Time = "Days: 1"},
     ["0"] = {Tag = "0", Time = "Days: 1"},
