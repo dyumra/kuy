@@ -1149,7 +1149,7 @@ Tabs.Hitbox:Toggle({Title="Expand Cultist Hitbox", Default=false, Callback=funct
 
 getgenv().speedEnabled = false
 getgenv().speedValue = 20
-Tabs.Misc:Toggle({
+Tabs.Player:Toggle({
     Title = "Enable Speed",
     Default = false,
     Callback = function(v)
@@ -1159,7 +1159,7 @@ Tabs.Misc:Toggle({
         if hum then hum.WalkSpeed = v and getgenv().speedValue or 16 end
     end
 })
-Tabs.Misc:Slider({
+Tabs.Player:Slider({
     Title = "Set Speed Value",
     Value = {Min = 16, Max = 600, Default = 20},
     Step = 1,
@@ -1174,7 +1174,7 @@ Tabs.Misc:Slider({
 
 getgenv().jumpEnabled = false
 getgenv().jumpValue = 50
-Tabs.Misc:Toggle({
+Tabs.Player:Toggle({
     Title = "Enable JumpPower",
     Default = false,
     Callback = function(v)
@@ -1184,7 +1184,7 @@ Tabs.Misc:Toggle({
         if hum then hum.JumpPower = v and getgenv().jumpValue or 16 end
     end
 })
-Tabs.Misc:Slider({
+Tabs.Player:Slider({
     Title = "Set Jump Value",
     Value = {Min = 10, Max = 600, Default = 50},
     Step = 1,
