@@ -142,6 +142,67 @@ local Tabs = {
     Misc = Window:Tab({ Title = "Misc", Icon = "file-cog" }),
 }
 
+Tabs.Main:Toggle({
+    Title = "Auto TP to Campfire (Low HP)",
+    Default = false,
+    Callback = function(state)
+        getgenv().Lowhp = state
+        if state then
+            task.spawn(function()
+                while getgenv().Lowhp do
+                    local character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+                    local humanoid = character:FindFirstChildOfClass("Humanoid")
+                    local hrp = character:FindFirstChild("HumanoidRootPart")
+                    if humanoid and hrp then
+                        local healthPercent = humanoid.Health / humanoid.MaxHealth
+                        if healthPercent <= 0.4 then
+                            hrp.CFrame = CFrame.new(Vector3.new(0, 8, 0)) -- จุดแคมป์ไฟ
+                            break -- ออกจากลูปหลังวาร์ป
+                        end
+                    end
+                    task.wait(1) -- ตรวจสอบทุก 0.5 วินาที
+                end
+            end)
+        end
+    end
+})
+
+Tabs.Main:Toggle({
+    Title = "Auto TP to Campfire (At Night - Once per Night)",
+    Default = false,
+    Callback = function(state)
+        getgenv().AutoCampAtNight = state
+        if state then
+            task.spawn(function()
+                local didTeleportTonight = false
+                while getgenv().AutoCampAtNight do
+                    local character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+                    local hrp = character:FindFirstChild("HumanoidRootPart")
+                    local lighting = game:GetService("Lighting")
+
+                    if hrp and lighting then
+                        local hour = tonumber(string.split(lighting.TimeOfDay, ":")[1])
+                        if hour then
+                            -- ถ้ายังไม่วาร์ป และเป็นเวลาตอนกลางคืน
+                            if not didTeleportTonight and hour >= 0 and hour < 5 then
+                                hrp.CFrame = CFrame.new(Vector3.new(0, 8, 0)) -- จุดแคมป์ไฟ
+                                didTeleportTonight = true
+                            end
+                            -- รีเซ็ต flag ถ้าหลุดจากกลางคืนแล้ว
+                            if hour >= 6 then
+                                didTeleportTonight = false
+                            end
+                        end
+                    end
+
+                    task.wait(1)
+                end
+            end)
+        end
+    end
+})
+
+
 local autoBreakActive = false
 local autoBreakSpeed = 1
 local autoBreakThread
@@ -214,7 +275,7 @@ local autoTreeFarmActive = false
 local autoTreeFarmThread
 
 Tabs.Main:Toggle({
-    Title = "Auto Tree Farm (Mobile/PC)",
+    Title = "Auto Tree-Farm (Mobile/PC)",
     Default = false,
     Callback = function(state)
         autoTreeFarmActive = state
@@ -300,7 +361,7 @@ local infHungerActive = false
 local infHungerThread
 
 Tabs.Main:Toggle({
-    Title = "Inf Hunger (In Development)",
+    Title = "Infinite Hunger (In Development)",
     Default = false,
     Callback = function(state)
         infHungerActive = state
@@ -1030,7 +1091,7 @@ task.spawn(function()
 end)
 
 Tabs.Hitbox:Slider({Title="Hitbox Size", Value={Min=2, Max=200, Default=10}, Step=1, Callback=function(val) hitboxSettings.Size=val end})
-Tabs.Hitbox:Toggle({Title="Show Hitbox", Default=false, Callback=function(val) hitboxSettings.Show=val end})
+Tabs.Hitbox:Toggle({Title="Show Hitbox (Fixed)", Default=false, Callback=function(val) hitboxSettings.Show=val end})
 Tabs.Hitbox:Toggle({Title="Expand All Hitbox", Default=false, Callback=function(val) hitboxSettings.All=val end})
 Tabs.Hitbox:Toggle({Title="Expand Alien Hitbox", Default=false, Callback=function(val) hitboxSettings.Alien=val end})
 Tabs.Hitbox:Toggle({Title="Expand Bear Hitbox", Default=false, Callback=function(val) hitboxSettings.Bear=val end})
@@ -1041,7 +1102,7 @@ Tabs.Hitbox:Toggle({Title="Expand Cultist Hitbox", Default=false, Callback=funct
 getgenv().speedEnabled = false
 getgenv().speedValue = 20
 Tabs.Misc:Toggle({
-    Title = "Enable Speed",
+    Title = "Enable Speed Hack",
     Default = false,
     Callback = function(v)
         getgenv().speedEnabled = v
@@ -1253,7 +1314,7 @@ local oldFogColor = Lighting.FogColor
 
 local noFogConnection
 
-Tabs.Player:Toggle({
+Tabs.Misc:Toggle({
     Title = "No Fog",
     Default = false,
     Callback = function(state)
@@ -1299,7 +1360,7 @@ vibrantEffect.Brightness = 0.1      -- เพิ่มความสว่า�
 vibrantEffect.Enabled = false
 vibrantEffect.Parent = Lighting
 
-Tabs.Player:Toggle({
+Tabs.Misc:Toggle({
     Title = "Vibrant Colors 200%",
     Default = false,
     Callback = function(state)
