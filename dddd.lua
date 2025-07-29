@@ -108,7 +108,7 @@ WindUI:Popup({
 repeat task.wait() until Confirmed
 
 local Window = WindUI:CreateWindow({
-    Folder = "DYHUB Config | 99NitF | V3",
+    Folder = "DYHUB Config | 99NitF | V4",
     Title = "DYHUB - 99 Night in the Forest @ In-game (Beta)",
     IconThemed = true,
     Icon = "star",
@@ -142,66 +142,63 @@ local Tabs = {
     Misc = Window:Tab({ Title = "Misc", Icon = "file-cog" }),
 }
 
-Tabs.Main:Toggle({
-    Title = "Auto TP to Campfire (Low HP)",
-    Default = false,
-    Callback = function(state)
-        getgenv().Lowhp = state
-        if state then
-            task.spawn(function()
-                while getgenv().Lowhp do
-                    local character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
-                    local humanoid = character:FindFirstChildOfClass("Humanoid")
-                    local hrp = character:FindFirstChild("HumanoidRootPart")
-                    if humanoid and hrp then
-                        local healthPercent = humanoid.Health / humanoid.MaxHealth
-                        if healthPercent <= 0.4 then
-                            hrp.CFrame = CFrame.new(Vector3.new(0, 8, 0)) -- จุดแคมป์ไฟ
-                            break -- ออกจากลูปหลังวาร์ป
-                        end
-                    end
-                    task.wait(1) -- ตรวจสอบทุก 0.5 วินาที
-                end
-            end)
-        end
-    end
+Tabs.Auto:Toggle({
+    Title = "Auto to Campfire (Low HP)",
+    Default = false,
+    Callback = function(state)
+        getgenv().Lowhp = state
+        if state then
+            task.spawn(function()
+                while getgenv().Lowhp do
+                    local character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+                    local humanoid = character:FindFirstChildOfClass("Humanoid")
+                    local hrp = character:FindFirstChild("HumanoidRootPart")
+                    if humanoid and hrp then
+                        local healthPercent = humanoid.Health / humanoid.MaxHealth
+                        if healthPercent <= 0.4 then
+                            hrp.CFrame = CFrame.new(Vector3.new(0, 8, 0))
+                            break
+                        end
+                    end
+                    task.wait(1)
+                end
+            end)
+        end
+    end
 })
 
-Tabs.Main:Toggle({
-    Title = "Auto TP to Campfire (At Night - Once per Night)",
-    Default = false,
-    Callback = function(state)
-        getgenv().AutoCampAtNight = state
-        if state then
-            task.spawn(function()
-                local didTeleportTonight = false
-                while getgenv().AutoCampAtNight do
-                    local character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
-                    local hrp = character:FindFirstChild("HumanoidRootPart")
-                    local lighting = game:GetService("Lighting")
+Tabs.Auto:Toggle({
+    Title = "Auto to Campfire (At Night - Once per Night)",
+    Default = false,
+    Callback = function(state)
+        getgenv().AutoCampAtNight = state
+        if state then
+            task.spawn(function()
+                local didTeleportTonight = false
+                while getgenv().AutoCampAtNight do
+                    local character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+                    local hrp = character:FindFirstChild("HumanoidRootPart")
+                    local lighting = game:GetService("Lighting")
 
-                    if hrp and lighting then
-                        local hour = tonumber(string.split(lighting.TimeOfDay, ":")[1])
-                        if hour then
-                            -- ถ้ายังไม่วาร์ป และเป็นเวลาตอนกลางคืน
-                            if not didTeleportTonight and hour >= 0 and hour < 5 then
-                                hrp.CFrame = CFrame.new(Vector3.new(0, 8, 0)) -- จุดแคมป์ไฟ
-                                didTeleportTonight = true
-                            end
-                            -- รีเซ็ต flag ถ้าหลุดจากกลางคืนแล้ว
-                            if hour >= 6 then
-                                didTeleportTonight = false
-                            end
-                        end
-                    end
+                    if hrp and lighting then
+                        local hour = tonumber(string.split(lighting.TimeOfDay, ":")[1])
+                        if hour then
+                            if not didTeleportTonight and hour >= 0 and hour < 5 then
+                                hrp.CFrame = CFrame.new(Vector3.new(0, 8, 0))
+                                didTeleportTonight = true
+                            end
+                            if hour >= 5 then
+                                didTeleportTonight = false
+                            end
+                        end
+                    end
 
-                    task.wait(1)
-                end
-            end)
-        end
-    end
+                    task.wait(1)
+                end
+            end)
+        end
+    end
 })
-
 
 local autoBreakActive = false
 local autoBreakSpeed = 1
@@ -361,7 +358,7 @@ local infHungerActive = false
 local infHungerThread
 
 Tabs.Main:Toggle({
-    Title = "Infinite Hunger (In Development)",
+    Title = "Inf Hunger (In Development)",
     Default = false,
     Callback = function(state)
         infHungerActive = state
@@ -386,7 +383,7 @@ Tabs.Main:Toggle({
     end
 })
 
-Tabs.Main:Button({Title="Auto Cooked (Mobile/PC)", Callback=function()
+Tabs.Main:Button({Title="Auto Cooked (Fixed)", Callback=function()
     local campfirePos = Vector3.new(1.87, 4.33, -3.67)
     for _, item in pairs(workspace.Items:GetChildren()) do
         if item:IsA("Model") or item:IsA("BasePart") then
@@ -504,14 +501,12 @@ Tabs.Auto:Dropdown({
 Tabs.Auto:Button({
     Title = "Auto Workbrech", 
     Callback = function()
-        -- แก้ไขเป็น CFrame จริงๆ ต้องใช้ CFrame.new() ไม่ใช่ cframe.new()
         local campfirePos = CFrame.new(20.5397816, 6.25331163, -4.86815262, -0.0290346798, 8.43757775e-09, -0.999578416, 3.91288673e-08, 1, 7.30456273e-09, 0.999578416, -3.89002821e-08, -0.0290346798)
         local lowerSelectedWorkbrech = selectedWorkbrech:lower()
 
         for _, item in pairs(workspace.Items:GetChildren()) do
             if item:IsA("Model") or item:IsA("BasePart") then
                 local name = item.Name:lower()
-                -- เช็คว่าชื่อไอเท็มมีคำที่ตรงกับ Workbrech ที่เลือกหรือไม่
                 if name:find(lowerSelectedWorkbrech) then
                     local part = item:FindFirstChildWhichIsA("BasePart") or item
                     if part then
@@ -561,7 +556,7 @@ Tabs.Esp:Toggle({
 })
 
 Tabs.Esp:Toggle({
-    Title = "Esp (Items)",
+    Title = "Esp (All, Scan Map - first)",
     Default = false,
     Callback = function(state)
         ActiveEspItems = state
@@ -582,6 +577,48 @@ Tabs.Esp:Toggle({
 })
 
 Tabs.Esp:Toggle({
+    Title = "Esp (Tools)",
+    Default = false,
+    Callback = function(state)
+        ActiveEspEnemy = state
+        task.spawn(function()
+            while ActiveEspEnemy do
+                for _, Obj in pairs(game.Workspace.Characters:GetChildren()) do
+                    if Obj:IsA("Model") and Obj.PrimaryPart and (Obj.Name ~= "Medkit" and Obj.Name ~= "Bandage" and Obj.Name ~= "Alien Armor" and Obj.Name ~= "Riot Shield" and Obj.Name ~= "Leather Body" and Obj.Name ~= "Iron Body" and Obj.Name ~= "Thorn Body" and Obj.Name ~= "Strong Flashlight" and Obj.Name ~= "Old Flashlight" and Obj.Name ~= "Old Sack" and Obj.Name ~= "Good Sack" and Obj.Name ~= "Giant Sack" and Obj.Name ~= "Morningstar" and Obj.Name ~= "Spear" and Obj.Name ~= "Katana" and Obj.Name ~= "Laser Sword" and Obj.Name ~= "Revolver" and Obj.Name ~= "Rifle" and Obj.Name ~= "Laser Sword" and Obj.Name ~= "Tactical Shotgun" and Obj.Name ~= "Kunai" and Obj.Name ~= "Ray Gun" and Obj.Name ~= "Laser Cannon" and Obj.Name ~= "Revolver Ammo" and Obj.Name ~= "Rifle Ammo" and Obj.Name ~= "Shotgun Ammo") and not Obj:FindFirstChildOfClass("Highlight") and not Obj.PrimaryPart:FindFirstChildOfClass("BillboardGui") then
+                        CreateEsp(Obj, Color3.fromRGB(0, 100, 255), Obj.Name, Obj.PrimaryPart, 2)
+                    end
+                end
+                task.wait(0.1)
+            end
+            for _, Obj in pairs(game.Workspace.Characters:GetChildren()) do
+                KeepEsp(Obj, Obj.PrimaryPart)
+            end
+        end)
+    end
+})
+
+Tabs.Esp:Toggle({
+    Title = "Esp (Food)",
+    Default = false,
+    Callback = function(state)
+        ActiveEspEnemy = state
+        task.spawn(function()
+            while ActiveEspEnemy do
+                for _, Obj in pairs(game.Workspace.Characters:GetChildren()) do
+                    if Obj:IsA("Model") and Obj.PrimaryPart and (Obj.Name ~= "Berry" and Obj.Name ~= "Carrot" and Obj.Name ~= "Apple" and Obj.Name ~= "Morsel" and Obj.Name ~= "Steak" and Obj.Name ~= "Cake" and Obj.Name ~= "Chili" and Obj.Name ~= "Hearty Stew" and Obj.Name ~= "Meat? Sandwich") and not Obj:FindFirstChildOfClass("Highlight") and not Obj.PrimaryPart:FindFirstChildOfClass("BillboardGui") then
+                        CreateEsp(Obj, Color3.fromRGB(0, 100, 255), Obj.Name, Obj.PrimaryPart, 2)
+                    end
+                end
+                task.wait(0.1)
+            end
+            for _, Obj in pairs(game.Workspace.Characters:GetChildren()) do
+                KeepEsp(Obj, Obj.PrimaryPart)
+            end
+        end)
+    end
+})
+
+Tabs.Esp:Toggle({
     Title = "Esp (Enemies)",
     Default = false,
     Callback = function(state)
@@ -589,7 +626,7 @@ Tabs.Esp:Toggle({
         task.spawn(function()
             while ActiveEspEnemy do
                 for _, Obj in pairs(game.Workspace.Characters:GetChildren()) do
-                    if Obj:IsA("Model") and Obj.PrimaryPart and (Obj.Name ~= "Lost Child" and Obj.Name ~= "Lost Child2" and Obj.Name ~= "Lost Child3" and Obj.Name ~= "Lost Child4" and Obj.Name ~= "Pelt Trader") and not Obj:FindFirstChildOfClass("Highlight") and not Obj.PrimaryPart:FindFirstChildOfClass("BillboardGui") then
+                    if Obj:IsA("Model") and Obj.PrimaryPart and (Obj.Name:find("Alien") or Obj.Name:find("Alien Elite") or Obj.Name:find("Bear") or Obj.Name:find("Polar Bear") or Obj.Name:find("Wolf") or Obj.Name:find("Alpha Wolf") or Obj.Name:find("Alpha") or Obj.Name:find("Bunny") or Obj.Name:find("Dragon") or Obj.Name:find("Cultist") or Obj.Name:find("Cross") or Obj.Name:find("Crossbow Cultist")) and not Obj:FindFirstChildOfClass("Highlight") and not Obj.PrimaryPart:FindFirstChildOfClass("BillboardGui") then
                         CreateEsp(Obj, Color3.fromRGB(255, 0, 0), Obj.Name, Obj.PrimaryPart, 2)
                     end
                 end
@@ -858,7 +895,7 @@ Tabs.Bring:Button({Title="Bring Logs All", Callback=function()
         if item.Name:lower():find("log") and item:IsA("Model") then
             local main = item:FindFirstChildWhichIsA("BasePart")
             if main then
-                main.CFrame = root.CFrame * CFrame.new(math.random(-5,5), 0, math.random(-5,5))
+                main.CFrame = root.CFrame * CFrame.new(math.random(-15,15), 0, math.random(-15,15))
             end
         end
     end
@@ -870,7 +907,7 @@ Tabs.Bring:Button({Title="Bring Pelts/Foot All", Callback=function()
         if (name:find("bunny foot") or name:find("wolf pelt") or name:find("alpha wolf pelt") or name:find("bear pelt")) and item:IsA("Model") then
             local main = item:FindFirstChildWhichIsA("BasePart")
             if main then
-                main.CFrame = root.CFrame * CFrame.new(math.random(-5,5), 0, math.random(-5,5))
+                main.CFrame = root.CFrame * CFrame.new(math.random(-15,15), 0, math.random(-15,15))
             end
         end
     end
@@ -883,7 +920,7 @@ Tabs.Bring:Button({Title="Bring Fuel All", Callback=function()
         if (name:find("fuel canister") or name:find("oil barrel") or name:find("coal") or name:find("Biofuel")) and item:IsA("Model") then
             local main = item:FindFirstChildWhichIsA("BasePart")
             if main then
-                main.CFrame = root.CFrame * CFrame.new(math.random(-5,5), 0, math.random(-5,5))
+                main.CFrame = root.CFrame * CFrame.new(math.random(-15,15), 0, math.random(-15,15))
             end
         end
     end
@@ -892,8 +929,8 @@ Tabs.Bring:Button({ Title = "Bring Scrap All", Callback = function()
     local root = LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
     if not root then return end
     local scrapNames = {
-        ["tyre"] = true, ["Old Car Engine"] = true, ["Washing Machine"] = true, ["Old Car Engine"] = true, ["UFO Component"] = true, ["Cultist Prototype"] = true, ["sheet metal"] = true, ["broken fan"] = true, ["bolt"] = true, ["old radio"] = true, ["ufo junk"] = true, ["ufo scrap"] = true, ["broken microwave"] = true,
-    }
+        ["tyre"] = true, ["Old Car Engine"] = true, ["Washing Machine"] = true, ["Metal Chair"] = true, ["UFO Component"] = true, ["Cultist Prototype"] = true, ["sheet metal"] = true, ["broken fan"] = true, ["bolt"] = true, ["old radio"] = true, ["ufo junk"] = true, ["ufo scrap"] = true, ["broken microwave"] = true,
+    } 
     for _, item in pairs(workspace.Items:GetChildren()) do
         if item:IsA("Model") then
             local itemName = item.Name:lower()
@@ -916,7 +953,19 @@ Tabs.Bring:Button({Title="Bring Food All", Callback=function()
         if (name:find("Steak") or name:find("sandwich") or name:find("morsel") or name:find("cake") or name:find("carrot") or name:find("pumpkin") or name:find("corn") or name:find("cooked") or name:find("berry") or name:find("apple") or name:find("steak") or name:find("stew") or name:find("hearty stew")) and item:IsA("Model") then
             local main = item:FindFirstChildWhichIsA("BasePart")
             if main then
-                main.CFrame = root.CFrame * CFrame.new(math.random(-5,5), 0, math.random(-5,5))
+                main.CFrame = root.CFrame * CFrame.new(math.random(-15,15), 0, math.random(-15,15))
+            end
+        end
+    end
+end})
+Tabs.Bring:Button({Title="Bring Armor All", Callback=function()
+    local root = LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
+    for _, item in pairs(workspace.Items:GetChildren()) do
+        local name = item.Name:lower()
+        if (name:find("Riot Shield") or name:find("Alien Armor") or name:find("Thorn Body") or name:find("Iron Body") or name:find("Leather Body")) and item:IsA("Model") then
+            local main = item:FindFirstChildWhichIsA("BasePart")
+            if main then
+                main.CFrame = root.CFrame * CFrame.new(math.random(-15,15), 0, math.random(-15,15))
             end
         end
     end
@@ -928,7 +977,7 @@ Tabs.Bring:Button({Title="Bring Pelts/Foot All", Callback=function()
         if (name:find("bunny foot") or name:find("wolf pelt") or name:find("alpha wolf pelt") or name:find("bear pelt")) and item:IsA("Model") then
             local main = item:FindFirstChildWhichIsA("BasePart")
             if main then
-                main.CFrame = root.CFrame * CFrame.new(math.random(-5,5), 0, math.random(-5,5))
+                main.CFrame = root.CFrame * CFrame.new(math.random(-25,25), 0, math.random(-25,25))
             end
         end
     end
@@ -940,7 +989,7 @@ Tabs.Bring:Button({Title="Bring Materials All", Callback=function()
         if (name:find("scrap") or name:find("cultist gem") or name:find("mossy coin")) and item:IsA("Model") then
             local main = item:FindFirstChildWhichIsA("BasePart")
             if main then
-                main.CFrame = root.CFrame * CFrame.new(math.random(-5,5), 0, math.random(-5,5))
+                main.CFrame = root.CFrame * CFrame.new(math.random(-25,25), 0, math.random(-25,25))
             end
         end
     end
@@ -952,7 +1001,7 @@ Tabs.Bring:Button({Title="Bring Healing All", Callback=function()
         if (name:find("Medkit") or name:find("Bandage")) and item:IsA("Model") then
             local main = item:FindFirstChildWhichIsA("BasePart")
             if main then
-                main.CFrame = root.CFrame * CFrame.new(math.random(-5,5), 0, math.random(-5,5))
+                main.CFrame = root.CFrame * CFrame.new(math.random(-15,15), 0, math.random(-15,15))
             end
         end
     end
@@ -969,7 +1018,7 @@ Tabs.Bring:Button({Title="Bring Lost Children All", Callback=function()
         end
     end
 end})
-Tabs.Bring:Button({Title="Bring Chest All", Callback=function()
+Tabs.Bring:Button({Title="Bring Chest All (Beta)", Callback=function()
     local root = LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
     for _, item in pairs(workspace.Items:GetChildren()) do
         local name = item.Name:lower()
@@ -988,7 +1037,6 @@ Tabs.BringWeapon:Button({Title="Bring Katana", Callback=function() bringItemsByN
 Tabs.BringWeapon:Button({Title="Bring Spear", Callback=function() bringItemsByName("Spear") end})
 Tabs.BringWeapon:Button({Title="Bring Tactical Shotgun", Callback=function() bringItemsByName("Tactical Shotgun") end})
 Tabs.BringWeapon:Button({Title="Bring Kunai", Callback=function() bringItemsByName("Kunai") end})
-Tabs.BringWeapon:Button({Title="Bring Knife", Callback=function() bringItemsByName("Knife") end})
 Tabs.BringWeapon:Button({Title="Bring Revolver", Callback=function() bringItemsByName("Revolver") end})
 Tabs.BringWeapon:Button({Title="Bring Rifle", Callback=function() bringItemsByName("Rifle") end})
 Tabs.BringWeapon:Button({Title="Bring Alien Raygun", Callback=function() bringItemsByName("Ray Gun") end})
@@ -1091,7 +1139,7 @@ task.spawn(function()
 end)
 
 Tabs.Hitbox:Slider({Title="Hitbox Size", Value={Min=2, Max=200, Default=10}, Step=1, Callback=function(val) hitboxSettings.Size=val end})
-Tabs.Hitbox:Toggle({Title="Show Hitbox (Fixed)", Default=false, Callback=function(val) hitboxSettings.Show=val end})
+Tabs.Hitbox:Toggle({Title="Show Hitbox", Default=false, Callback=function(val) hitboxSettings.Show=val end})
 Tabs.Hitbox:Toggle({Title="Expand All Hitbox", Default=false, Callback=function(val) hitboxSettings.All=val end})
 Tabs.Hitbox:Toggle({Title="Expand Alien Hitbox", Default=false, Callback=function(val) hitboxSettings.Alien=val end})
 Tabs.Hitbox:Toggle({Title="Expand Bear Hitbox", Default=false, Callback=function(val) hitboxSettings.Bear=val end})
@@ -1102,7 +1150,7 @@ Tabs.Hitbox:Toggle({Title="Expand Cultist Hitbox", Default=false, Callback=funct
 getgenv().speedEnabled = false
 getgenv().speedValue = 20
 Tabs.Misc:Toggle({
-    Title = "Enable Speed Hack",
+    Title = "Enable Speed",
     Default = false,
     Callback = function(v)
         getgenv().speedEnabled = v
