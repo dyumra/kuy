@@ -83,7 +83,7 @@ local premiumUsers = {
     ["SoraSixty"] = {Tag = "x_stayaroundme", Time = "Days: 7"}, -- 26/7/2025
     -- Boost Server discord
     ["Monkeycheese3365"] = {Tag = "meboop90", Time = "Days: 14"}, -- 25/7/2025
-    ["0"] = {Tag = "0", Time = "Days: 0"},
+    ["Vincenzoxvz4"] = {Tag = "valkyrie6091", Time = "Days: 14"},
     -- 1 Days free
     ["0"] = {Tag = "0", Time = "Days: 1"},
     ["0"] = {Tag = "0", Time = "Days: 1"},
