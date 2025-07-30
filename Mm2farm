@@ -6,7 +6,7 @@ local plr = game.Players.LocalPlayer
 local character = plr.Character or plr.CharacterAdded:Wait()
 local humPart = character:WaitForChild("HumanoidRootPart")
 local map
-local moveSpeed = 100
+local moveSpeed = 45
 local collected = 0
 local collectLabel
 local maxCollect = 40
@@ -186,7 +186,7 @@ w:Toggle("BeachBall Farm", false, function(bool)
 end)
 
 w:Box("Move Speed (Stud/s)", function(num)
-    moveSpeed = tonumber(num) or 1000
+    moveSpeed = tonumber(num) or 100
 end)
 
 w:Button("Manual Anti AFK", function()
