@@ -270,7 +270,7 @@ local premiumUsers = {
 local placeId = tostring(game.PlaceId)
 local creatorId = tostring(game.CreatorId)
 
-local isPremiumGame = AllowGameforPremiumByPlaceId[placeId] or allowedGamesforPremiumByCreatorId[tonumber(creatorId)] ~= nil
+local isPremiumGame = (AllowGameforPremiumByPlaceId[placeId] ~= nil) or (allowedGamesforPremiumByCreatorId[tonumber(creatorId)] ~= nil)
 local gameData = FreeVersionallowedGamesByPlaceId[placeId] or FreeVersionallowedGamesByCreatorId[tonumber(creatorId)] or allowedGamesforPremiumByCreatorId[tonumber(creatorId)] or AllowGameforPremiumByPlaceId[placeId]
 
 if not gameData then
