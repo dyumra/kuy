@@ -1,60 +1,67 @@
 local lib = loadstring(game:HttpGet("https://raw.githubusercontent.com/Turtle-Brand/Turtle-Lib/main/source.lua"))()
 local w = lib:Window("Function - Auto Farm")
+
+local TweenService = game:GetService("TweenService")
 local plr = game.Players.LocalPlayer
 local character = plr.Character or plr.CharacterAdded:Wait()
 local humPart = character:WaitForChild("HumanoidRootPart")
+local map
+local moveSpeed = 100
+local collected = 0
+local collectLabel
+local maxCollect = 40
+local markPosition = nil
+local currentTween = nil
+
 plr.CharacterAdded:Connect(function(char)
     character = char
     humPart = char:WaitForChild("HumanoidRootPart")
 end)
-local map
+
 game.Workspace.DescendantAdded:Connect(function(m)
     if m:IsA("Model") and m.Name == "CoinContainer" then
         map = m
     end
 end)
-local delay = 2.5
-getgenv().farm = false
-w:Toggle("BeachBall Farm", false, function(bool)
-    getgenv().farm = bool
-    while getgenv().farm do
-        if (not map) or (not map.Parent) then
-            for _,m in ipairs(game.Workspace:GetDescendants()) do
-                if m:IsA("Model") and m.Name == "CoinContainer" then
-                    map = m
-                    break
-                end
-            end
+
+local function moveTo(pos, speed)
+    local hrp = character:FindFirstChild("HumanoidRootPart")
+    if not hrp then return end
+    for _, p in pairs(character:GetChildren()) do
+        if p:IsA("BasePart") then
+            p.CanCollide = false
         end
-        if map and map.Parent then
-            for _,coin in ipairs(map:GetChildren()) do
-                if not getgenv().farm then break end
-                if coin:IsA("Part") and coin.Name=="Coin_Server" and coin:GetAttribute("CoinID")=="BeachBall" then
-                    local cv = coin:FindFirstChild("CoinVisual")
-                    if cv and cv.Transparency~=1 then
-                        if not humPart or not humPart.Parent then
-                            humPart = character and character:FindFirstChild("HumanoidRootPart")
-                            if not humPart then break end
-                        end
-                        for _,p in pairs(character:GetChildren()) do
-                            if p:IsA("BasePart") and p.CanCollide then p.CanCollide=false end
-                        end
-                        humPart.CFrame = coin.CFrame * CFrame.new(0,6,0)
-                        task.wait(delay)
-                    end
-                end
-            end
-        end
-        task.wait(1)
     end
-end)
-w:Box("Farm Delay", function(num)
-    delay = tonumber(num) or 2.5
-end)
-local GC = getconnections or get_signal_cons
-w:Button("Anti AFK", function()
+    if currentTween then
+        currentTween:Cancel()
+        currentTween = nil
+    end
+    local distance = (hrp.Position - pos).Magnitude
+    local tweenTime = distance / speed
+    local tweenInfo = TweenInfo.new(tweenTime, Enum.EasingStyle.Linear)
+    local goal = {CFrame = CFrame.new(pos + Vector3.new(0, 6, 0))}
+    local tween = TweenService:Create(hrp, tweenInfo, goal)
+    currentTween = tween
+    tween:Play()
+    tween.Completed:Wait()
+    currentTween = nil
+end
+
+local function highlightCoin(coin)
+    if not coin:FindFirstChild("Highlight") then
+        local h = Instance.new("Highlight")
+        h.FillColor = Color3.fromRGB(255, 255, 0)
+        h.FillTransparency = 0.5
+        h.OutlineColor = Color3.fromRGB(255, 255, 255)
+        h.OutlineTransparency = 0
+        h.Parent = coin
+    end
+end
+
+local function antiAFK()
+    local GC = getconnections or get_signal_cons
     if GC then
-        for _,v in pairs(GC(plr.Idled)) do
+        for _, v in pairs(GC(plr.Idled)) do
             if v.Disable then v:Disable() elseif v.Disconnect then v:Disconnect() end
         end
     else
@@ -64,5 +71,126 @@ w:Button("Anti AFK", function()
             vu:ClickButton2(Vector2.new())
         end)
     end
+end
+
+getgenv().farm = false
+collectLabel = w:Label("Collected: 0", Color3.fromRGB(0, 255, 0))
+
+local function clearTargetLabel(coin)
+    if coin and coin:FindFirstChild("TargetLabel") then
+        coin.TargetLabel:Destroy()
+    end
+end
+
+local function createTargetLabel(coin)
+    clearTargetLabel(coin)
+    local gui = Instance.new("BillboardGui")
+    gui.Name = "TargetLabel"
+    gui.Size = UDim2.new(0, 100, 0, 40)
+    gui.StudsOffset = Vector3.new(0, 3, 0)
+    gui.AlwaysOnTop = true
+    gui.Parent = coin
+
+    local text = Instance.new("TextLabel")
+    text.Size = UDim2.new(1, 0, 1, 0)
+    text.BackgroundTransparency = 1
+    text.Text = "DYHUB | Coin"
+    text.TextColor3 = Color3.fromRGB(255, 0, 0)
+    text.TextStrokeTransparency = 0.5
+    text.TextScaled = true
+    text.Font = Enum.Font.SourceSansBold
+    text.Parent = gui
+end
+
+local function startFarmLoop()
+    task.spawn(function()
+        while getgenv().farm do
+            if collected >= maxCollect then
+                if markPosition == nil and humPart then
+                    markPosition = humPart.Position + Vector3.new(0, 99, 0)
+                end
+                if markPosition then
+                    moveTo(markPosition, moveSpeed)
+                end
+                task.wait(0.69)
+                continue
+            end
+
+            if not map or not map.Parent then
+                for _, m in ipairs(game.Workspace:GetDescendants()) do
+                    if m:IsA("Model") and m.Name == "CoinContainer" then
+                        map = m
+                        break
+                    end
+                end
+            end
+
+            if map and map.Parent then
+                local foundCoin = false
+                for _, coin in ipairs(map:GetChildren()) do
+                    if not getgenv().farm then return end
+                    if coin:IsA("Part") and coin.Name == "Coin_Server" and coin:GetAttribute("CoinID") == "BeachBall" then
+                        local cv = coin:FindFirstChild("CoinVisual")
+                        if cv and cv.Transparency ~= 1 then
+                            foundCoin = true
+                            highlightCoin(coin)
+                            createTargetLabel(coin)
+
+                            local oldPos = humPart and humPart.Position or Vector3.zero
+                            moveTo(coin.Position, moveSpeed)
+                            task.wait(0.3)
+
+                            if not getgenv().farm then
+                                clearTargetLabel(coin)
+                                return
+                            end
+
+                            if not coin.Parent then
+                                collected += 1
+                                collectLabel:Set("Collected: " .. collected)
+                            end
+
+                            clearTargetLabel(coin)
+                            break
+                        end
+                    end
+                end
+                if not foundCoin then
+                    task.wait(0.5)
+                end
+            else
+                task.wait(0.5)
+            end
+        end
+
+        if currentTween then
+            currentTween:Cancel()
+            currentTween = nil
+        end
+    end)
+end
+
+w:Toggle("BeachBall Farm", false, function(bool)
+    getgenv().farm = bool
+    if bool then
+        collected = 0
+        markPosition = nil
+        antiAFK()
+        startFarmLoop()
+    else
+        if currentTween then
+            currentTween:Cancel()
+            currentTween = nil
+        end
+    end
 end)
+
+w:Box("Move Speed (Stud/s)", function(num)
+    moveSpeed = tonumber(num) or 1000
+end)
+
+w:Button("Manual Anti AFK", function()
+    antiAFK()
+end)
+
 w:Label("BY DYHUB", Color3.fromRGB(255, 0, 0))
