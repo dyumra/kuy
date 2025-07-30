@@ -6,7 +6,7 @@ local plr = game.Players.LocalPlayer
 local character = plr.Character or plr.CharacterAdded:Wait()
 local humPart = character:WaitForChild("HumanoidRootPart")
 local map
-local moveSpeed = 45
+local moveSpeed = 40
 local collected = 0
 local collectLabel
 local maxCollect = 40
@@ -39,7 +39,7 @@ local function moveTo(pos, speed)
     local distance = (hrp.Position - pos).Magnitude
     local tweenTime = distance / speed
     local tweenInfo = TweenInfo.new(tweenTime, Enum.EasingStyle.Linear)
-    local goal = {CFrame = CFrame.new(pos + Vector3.new(0, 6, 0))}
+    local goal = {CFrame = CFrame.new(pos + Vector3.new(0, 3, 0))}
     local tween = TweenService:Create(hrp, tweenInfo, goal)
     currentTween = tween
     tween:Play()
@@ -94,7 +94,7 @@ local function createTargetLabel(coin)
     local text = Instance.new("TextLabel")
     text.Size = UDim2.new(1, 0, 1, 0)
     text.BackgroundTransparency = 1
-    text.Text = "DYHUB | Coin"
+    text.Text = "DYHUB Coin"
     text.TextColor3 = Color3.fromRGB(255, 0, 0)
     text.TextStrokeTransparency = 0.5
     text.TextScaled = true
@@ -107,12 +107,12 @@ local function startFarmLoop()
         while getgenv().farm do
             if collected >= maxCollect then
                 if markPosition == nil and humPart then
-                    markPosition = humPart.Position + Vector3.new(0, 99, 0)
+                    markPosition = humPart.Position + Vector3.new(0, 50, 0)
                 end
                 if markPosition then
                     moveTo(markPosition, moveSpeed)
                 end
-                task.wait(0.69)
+                task.wait(1)
                 continue
             end
 
@@ -156,10 +156,10 @@ local function startFarmLoop()
                     end
                 end
                 if not foundCoin then
-                    task.wait(0.5)
+                    task.wait(1)
                 end
             else
-                task.wait(0.5)
+                task.wait(1)
             end
         end
 
@@ -185,7 +185,7 @@ w:Toggle("BeachBall Farm", false, function(bool)
     end
 end)
 
-w:Box("Move Speed (Stud/s)", function(num)
+w:Box("Move Speed (40/s)", function(num)
     moveSpeed = tonumber(num) or 100
 end)
 
