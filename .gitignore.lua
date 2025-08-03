@@ -175,7 +175,7 @@ local FreeVersionallowedGamesByPlaceId = {
     ["103661214879860"] = {name = "ABILITIES TOWER", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/AssT.lua"},
     ["89343390950953"] = {name = "My Singing Brainrot [DYHUB X TORA]", url = "https://raw.githubusercontent.com/gumanba/Scripts/main/MySingingBrainrot"},
     ["89343390950953"] = {name = "My Singing Brainrot [Faster]", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/MySingingB.lua"},
-    ["80932898798323"] = {name = "Cross Piece", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/CrossPieceCollab.lua"},
+    ["80932898798323"] = {name = "Cross Piece", url = "https://raw.githubusercontent.com/meobeo8/type/main/Loader"},
     ["914010731"] = {name = "Ro-Ghoul", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/Roghoul.lua"},
     ["13618878564"] = {name = "Bloxel Gun", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/BLOXEL.lua"},
     ["221718525"] = {name = "Ninja Tycoon", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/NT.lua"},
