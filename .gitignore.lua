@@ -244,7 +244,7 @@ local premiumUsers = {
     ["0x0e8rfaD8d782452c93"] = {Tag = "oszq_", Time = "Days: -1"},
     ["TH0PUM_KUNG"] = {Tag = "oszq_", Time = "Days: -1"},
     ["Fsaiohs"] = {Tag = "oszq_", Time = "Year: 200"},
-    ["UASK25"] = {Tag = "oszq_", Time = "Year: 200"},
+    ["Go_Ertadx4"] = {Tag = "Free", Time = "Days: -1"},
 
 -- ====================== Buyer ================================
 
