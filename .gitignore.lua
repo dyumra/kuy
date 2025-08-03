@@ -254,7 +254,7 @@ local premiumUsers = {
     ["ymh_is666"] = {Tag = "idkkkkk0813", Time = "Times: Lifetime"},
     ["MeowyBee"] = {Tag = "meowybee", Time = "Times: Lifetime"},
     ["itz_Lxx71"] = {Tag = "lxxx7.", Time = "Days: Lifetime"},
-    ["SoraSixty"] = {Tag = "x_stayaroundme", Time = "Days: 7"}, -- 26/7/2025 - 01/8/2025
+    ["0"] = {Tag = "0", Time = "Days: 0"},
 
 -- ====================== Booster ==============================
 
