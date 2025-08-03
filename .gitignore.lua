@@ -263,7 +263,7 @@ local premiumUsers = {
 
 -- ====================== Give Away ============================
 
-    ["Fal_Fate"] = {Tag = "musashi_0940", Time = "Time: Lifetime"}, -- First
+    ["Masayoshi88"] = {Tag = "musashi_0940", Time = "Time: Lifetime"}, -- First
     ["0"] = {Tag = "0", Time = "Days: 1"},
     ["0"] = {Tag = "0", Time = "Days: 1"},
     ["0"] = {Tag = "0", Time = "Days: 1"},
