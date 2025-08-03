@@ -162,6 +162,7 @@ end
 -- ===================== Free Version ==========================
 
 local FreeVersionallowedGamesByCreatorId = {
+    [9482918] = {name = "The Mimic (DYHUB X RAELHUB)", url = "https://raw.githubusercontent.com/Laelmano24/Rael-Hub/refs/heads/main/main.txt"},
     [6042520] = {name = "99 Nights in the Forest", url = "https://raw.githubusercontent.com/dyumra/kuy/refs/heads/main/dddd.lua"},
     [12398672] = {name = "Ink Game", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/inkgamedyhub.lua"},
 }
