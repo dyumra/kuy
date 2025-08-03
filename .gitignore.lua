@@ -255,8 +255,8 @@ local premiumUsers = {
     ["YMH012"] = {Tag = "idkkkkk0813", Time = "Times: Lifetime"},
     ["ymh_is666"] = {Tag = "idkkkkk0813", Time = "Times: Lifetime"},
     ["MeowyBee"] = {Tag = "meowybee", Time = "Times: Lifetime"},
-    ["itz_Lxx71"] = {Tag = "lxxx7.", Time = "Days: Lifetime"},
-    ["0"] = {Tag = "0", Time = "Days: 0"},
+    ["itz_Lxx71"] = {Tag = "lxxx7.", Time = "Times: Lifetime"},
+    ["stealbf9"] = {Tag = "nzmdlz_97886", Time = "Times: Lifetime"},
 
 -- ====================== Booster ==============================
 
