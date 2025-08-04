@@ -269,7 +269,7 @@ local premiumUsers = {
 -- ====================== Give Away ============================
 
     ["Masayoshi88"] = {Tag = "musashi_0940", Time = "Time: Lifetime"}, -- First
-    ["Kyn8s"] = {Tag = "kyn8s", Time = "Days: 1"},
+    ["0"] = {Tag = "0", Time = "Days: 1"},
     ["0"] = {Tag = "0", Time = "Days: 1"},
     ["0"] = {Tag = "0", Time = "Days: 1"},
 }
