@@ -10,7 +10,7 @@ local blur = Instance.new("BlurEffect")
 blur.Size = 15
 blur.Parent = Lighting
 
-local VALID_KEY = "DYHUB12345"
+local VALID_KEY = "BUHYD69"
 
 local function notify(text)
     pcall(function()
