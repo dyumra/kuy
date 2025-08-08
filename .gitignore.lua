@@ -272,7 +272,7 @@ local premiumUsers = {
 -- ====================== Give Away ============================
 
     ["Masayoshi88"] = {Tag = "musashi_0940", Time = "Time: Lifetime"}, -- Premium Lifetime Free First
-    ["IComeAlotduringWork"] = {Tag = "_squek", Time = "Days: 1"},
+    [""] = {Tag = "", Time = "Days: 1"},
     ["0"] = {Tag = "0", Time = "Days: 1"},
     ["0"] = {Tag = "0", Time = "Days: 1"},
 }
