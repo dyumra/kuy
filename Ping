@@ -1,0 +1,43 @@
+getgenv().DYHUBPING = {
+    DYHUBPINGSF = true,
+    DYHUBSTART = getgenv().DYHUBSTART,
+    DYHUBEND = getgenv().DYHUBEND
+}
+
+getgenv().DYHUBTHEBEST = getgenv().DYHUBTHEBEST
+
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+
+local function kickIfNoCredit()
+    local credit = getgenv().DYHUBTHEBEST
+    if type(credit) ~= "string" or credit ~= "Join our (dsc.gg/dyhub)" then
+        LocalPlayer:Kick("delete credit DYHUB?")
+        return false
+    end
+    return true
+end
+
+if not kickIfNoCredit() then
+    return
+end
+
+local DYHUB_1
+local DYHUB_2
+local DYHUB_3
+
+for DYHUB_1, DYHUB_2 in pairs(game.CoreGui.RobloxGui.PerformanceStats:GetChildren()) do
+    if DYHUB_2.Name == 'PS_Button' and DYHUB_2.StatsMiniTextPanelClass.TitleLabel.Text == 'Ping' then
+        DYHUB_3 = DYHUB_2.StatsMiniTextPanelClass.ValueLabel
+    end
+end
+
+if DYHUB_3 then
+    DYHUB_3:GetPropertyChangedSignal('Text'):Connect(function()
+        if getgenv().DYHUBPING.DYHUBPINGSF then
+            local DYHUB_4 = math.random(getgenv().DYHUBPING.DYHUBSTART, getgenv().DYHUBPING.DYHUBEND)
+            DYHUB_4 = DYHUB_4 * 1.23
+            DYHUB_3.Text = DYHUB_4 .. ' ms'
+        end
+    end)
+end
