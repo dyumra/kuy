@@ -276,8 +276,8 @@ local premiumUsers = {
 -- ====================== Give Away ============================
 
     ["Masayoshi88"] = {Tag = "musashi_0940", Time = "Time: Lifetime"}, -- Premium Lifetime Free First
-    ["rro_14"] = {Tag = "jeraldbak", Time = "Days: 1"},
-    ["0"] = {Tag = "0", Time = "Days: 1"},
+    ["rro_14"] = {Tag = "jeraldbak", Time = "Days: 1"}, -- 10th 20:00
+    ["kdowubd"] = {Tag = "xxyw_204", Time = "Days: 1"}, -- 11th 01:12
     ["0"] = {Tag = "0", Time = "Days: 1"},
 }
 
