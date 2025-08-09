@@ -264,7 +264,7 @@ local premiumUsers = {
     ["YMH012"] = {Tag = "idkkkkk0813", Time = "Times: Lifetime"},
     ["ymh_is666"] = {Tag = "idkkkkk0813", Time = "Times: Lifetime"},
     ["MeowyBee"] = {Tag = "meowybee", Time = "Times: Lifetime"},
-    ["PauGrosso0_910"] = {Tag = "lxxx7.", Time = "Times: Lifetime"},
+    ["itz_Lxx71"] = {Tag = "lxxx7.", Time = "Times: Lifetime"},
     ["stealbf9"] = {Tag = "nzmdlz_97886", Time = "Times: Lifetime"},
     ["DjScrew65"] = {Tag = "pizzaman7654", Time = "Time: Lifetime"},
 
