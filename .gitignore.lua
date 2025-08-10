@@ -268,6 +268,7 @@ local premiumUsers = {
     ["itz_Lxx71"] = {Tag = "lxxx7.", Time = "Times: Lifetime"},
     ["stealbf9"] = {Tag = "nzmdlz_97886", Time = "Times: Lifetime"},
     ["DjScrew65"] = {Tag = "pizzaman7654", Time = "Time: Lifetime"},
+    ["CinderellaPT"] = {Tag = "_geisha", Time = "Time: Lifetime"},
     -- Giveaway LifeTime
     ["Masayoshi88"] = {Tag = "musashi_0940", Time = "Time: Lifetime"},
 
