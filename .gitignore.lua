@@ -267,6 +267,8 @@ local premiumUsers = {
     ["itz_Lxx71"] = {Tag = "lxxx7.", Time = "Times: Lifetime"},
     ["stealbf9"] = {Tag = "nzmdlz_97886", Time = "Times: Lifetime"},
     ["DjScrew65"] = {Tag = "pizzaman7654", Time = "Time: Lifetime"},
+    -- Giveaway LifeTime
+    ["Masayoshi88"] = {Tag = "musashi_0940", Time = "Time: Lifetime"},
 
 -- ====================== Booster ==============================
 
@@ -275,10 +277,10 @@ local premiumUsers = {
 
 -- ====================== Give Away ============================
 
-    ["Masayoshi88"] = {Tag = "musashi_0940", Time = "Time: Lifetime"}, -- Premium Lifetime Free First
+    ["0"] = {Tag = "0", Time = "Time: 0"}, -- Premium Lifetime Free First
     ["rro_14"] = {Tag = "jeraldbak", Time = "Days: 1"}, -- 10th 20:00
     ["kdowubd"] = {Tag = "xxyw_204", Time = "Days: 1"}, -- 11th 01:12
-    ["0"] = {Tag = "0", Time = "Days: 1"},
+    ["Ddeewllets"] = {Tag = "disdis0321", Time = "Days: 1"},
 }
 
 local placeId = tostring(game.PlaceId)
