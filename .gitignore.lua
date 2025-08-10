@@ -279,7 +279,7 @@ local premiumUsers = {
 -- ====================== Give Away ============================
 
     ["0"] = {Tag = "0", Time = "Time: 0"}, -- Premium Lifetime Free First
-    ["rro_14"] = {Tag = "jeraldbak", Time = "Days: 1"}, -- 10th 20:00
+    ["jssjshszs762"] = {Tag = "rosenest_ag8w", Time = "Days: 1"}, -- 10th 20:00
     ["kdowubd"] = {Tag = "xxyw_204", Time = "Days: 1"}, -- 11th 01:12
     ["Ddeewllets"] = {Tag = "disdis0321", Time = "Days: 1"},
 }
