@@ -210,6 +210,7 @@ local allowedGamesforPremiumByCreatorId = {
     [3049798] = {name = "Doors", url = "https://raw.githubusercontent.com/KINGHUB01/BlackKing-obf/main/Doors%20Blackking%20And%20BobHub"},
     [5292947] = {name = "ASTD X", url = "https://raw.githubusercontent.com/bunnnwee/JimiHub/refs/heads/main/ASTDX-Normal"},
     [35815907] = {name = "Steal A Brainrot", url = "https://get-arvotheon-ontop.netlify.app/Loader.lua"},
+    [3385385] = {name = "Hypershot", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/Hypershot.lua"},
     [2782840] = {name = "Build A Boat For Treasure", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/BABFT"},
     [35102746] = {name = "Fish It", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/FISHIT.lua"},
     [35561581] = {name = "Protect the Stash", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/STS.lua"},
