@@ -281,10 +281,10 @@ local premiumUsers = {
 
 -- ====================== Give Away ============================
 
-    ["0"] = {Tag = "0", Time = "Time: 0"}, -- Premium Lifetime Free First
     ["jssjshszs762"] = {Tag = "rosenest_ag8w", Time = "Days: 3"}, -- 13th 20:00
-    ["kdowubd"] = {Tag = "xxyw_204", Time = "Days: 1"}, -- 11th 01:12
-    ["Ddeewllets"] = {Tag = "disdis0321", Time = "Days: 1"},
+    ["0"] = {Tag = "0", Time = "Time: 1"},
+    ["0"] = {Tag = "0", Time = "Days: 1"},
+    ["0"] = {Tag = "0", Time = "Days: 1"},
 }
 
 local placeId = tostring(game.PlaceId)
