@@ -108,8 +108,8 @@ WindUI:Popup({
 repeat task.wait() until Confirmed
 
 local Window = WindUI:CreateWindow({
-    Folder = "DYHUB Config | 99NitF | V4",
-    Title = "DYHUB - 99 Night in the Forest @ In-game (Beta)",
+    Folder = "DYHUB Config | 99NitF | V5",
+    Title = "DYHUB - 99 Night in the Forest @ In-game (Version: 2.0)",
     IconThemed = true,
     Icon = "star",
     Author = "DYHUB (dsc.gg/dyhub)",
@@ -142,6 +142,9 @@ local Tabs = {
     Misc = Window:Tab({ Title = "Misc", Icon = "file-cog" }),
 }
 
+getgenv().Lowhp = false
+getgenv().AutoCampAtNight = false
+
 Tabs.Auto:Toggle({
     Title = "Auto to Campfire (Low HP)",
     Default = false,
@@ -149,18 +152,30 @@ Tabs.Auto:Toggle({
         getgenv().Lowhp = state
         if state then
             task.spawn(function()
+                local campPosition = Vector3.new(0, 8, 0)
                 while getgenv().Lowhp do
                     local character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
                     local humanoid = character:FindFirstChildOfClass("Humanoid")
                     local hrp = character:FindFirstChild("HumanoidRootPart")
                     if humanoid and hrp then
                         local healthPercent = humanoid.Health / humanoid.MaxHealth
-                        if healthPercent <= 0.4 then
-                            hrp.CFrame = CFrame.new(Vector3.new(0, 8, 0))
-                            break
+                        local distance = (hrp.Position - campPosition).Magnitude
+
+                        if distance > 33 then
+                            -- ถ้าอยู่ไกล camp มากกว่า 33 stud ดึงกลับ camp ทันที ไม่สน HP
+                            hrp.CFrame = CFrame.new(campPosition)
+                            task.wait(3)  -- รอ 3 วิ ก่อนเช็คใหม่
+                        elseif healthPercent <= 0.4 then
+                            -- ถ้า HP ต่ำกว่า 40% แต่ยังอยู่ใน camp (<=33 stud) ไม่ต้องวาร์ป
+                            -- แค่รอเช็คใหม่
+                            task.wait(1)
+                        else
+                            -- ปกติ ไม่ต้องทำอะไร รอเช็คใหม่
+                            task.wait(1)
                         end
+                    else
+                        task.wait(1)
                     end
-                    task.wait(1)
                 end
             end)
         end
@@ -206,9 +221,8 @@ local autoBreakThread
 
 Tabs.Main:Slider({
     Title = "Auto Hit Speed",
-    Min = 0.1,
-    Max = 2,
-    Default = 1,
+    Value = {Min = 0.1, Max = 2, Default = 0.5},
+    Step = 1,
     Callback = function(val)
         autoBreakSpeed = val
     end
@@ -268,91 +282,227 @@ Tabs.Main:Toggle({
     end
 })
 
-local autoTreeFarmActive = false
-local autoTreeFarmThread
+-- ฟังก์ชันแจ้งเตือน (ตัวอย่าง)
+local function createNotif(title, text, duration)
+    game:GetService("StarterGui"):SetCore("SendNotification", {
+        Title = title,
+        Text = text,
+        Duration = duration or 2
+    })
+end
 
+-- ตัวแปรหลัก
+local autoTreeFarmActive = false
+local autoFarmEnabled = false
+local originalPosition
+local clickConnection
+
+-- Services
+local Players = game:GetService("Players")
+local VirtualInputManager = game:GetService("VirtualInputManager")
+local RunService = game:GetService("RunService")
+local player = Players.LocalPlayer
+
+-- ตัวแปร Click
+local lastClickTime = 0
+local clickDelay = 0.3
+
+-- ฟังก์ชันจำลองการกดปุ่ม Sprint
+local function simulateClick()
+    if not autoFarmEnabled then return end
+    local currentTime = tick()
+    if currentTime - lastClickTime < clickDelay then return end
+
+    local camera = workspace.CurrentCamera
+    local viewportSize = camera.ViewportSize
+    local clickX = viewportSize.X - 10
+    local clickY = viewportSize.Y * 0.75
+
+    VirtualInputManager:SendMouseButtonEvent(clickX, clickY, 0, true, game, 0)
+    VirtualInputManager:SendMouseButtonEvent(clickX, clickY, 0, false, game, 0)
+
+    lastClickTime = currentTime
+end
+
+-- ย้ายตัวละครขึ้นไปลอยแล้ว Anchor
+local function teleportToAirAndAnchor()
+    local character = player.Character
+    if character and character:FindFirstChild("HumanoidRootPart") then
+        originalPosition = character.HumanoidRootPart.CFrame
+        local airPosition = character.HumanoidRootPart.Position + Vector3.new(0, 350, 0)
+        character.HumanoidRootPart.CFrame = CFrame.new(airPosition)
+        task.wait(0.5)
+        character.HumanoidRootPart.Anchored = true
+        createNotif("AutoFarmLogs", "Please don't do anything or touch", 2)
+        return true
+    end
+    return false
+end
+
+-- ปลด Anchor และพากลับตำแหน่งเดิม
+local function unanchorPlayer()
+    local character = player.Character
+    if character and character:FindFirstChild("HumanoidRootPart") then
+        character.HumanoidRootPart.Anchored = false
+        if originalPosition then
+            character.HumanoidRootPart.CFrame = originalPosition
+        end
+        createNotif("AutoFarmLogs", "AutoFarm Done", 2)
+    end
+end
+
+-- เทเลพอร์ตต้นไม้
+local function teleportAllTreesToPlayer()
+    local character = player.Character
+    if not (character and character:FindFirstChild("HumanoidRootPart")) then
+        createNotif("AutoFarmLogs", "Player character not found!", 3)
+        return false
+    end
+
+    local playerPos = character.HumanoidRootPart.Position
+    local treesFound = 0
+    if not workspace:FindFirstChild("Map") then
+        createNotif("AutoFarmLogs", "You're not in the game!", 3)
+        return false
+    end
+
+    local function teleportTreesFromFolder(folder, folderName)
+        if not folder then return 0 end
+        local count = 0
+        for _, item in pairs(folder:GetChildren()) do
+            local isSmallTree = false
+            if item.Name == "Small Tree" and item:IsA("Model") then
+                isSmallTree = true
+            elseif item:IsA("Model") then
+                local hasLeaves = item:FindFirstChild("Leaves") ~= nil
+                local hasTrunk = item:FindFirstChild("Trunk") ~= nil or item:FindFirstChild("trunk") ~= nil
+                local hasWood = item:FindFirstChild("Wood") ~= nil
+                if (hasLeaves or hasWood) and not hasTrunk then
+                    isSmallTree = true
+                end
+            end
+
+            if isSmallTree then
+                count += 1
+                local targetPosition = Vector3.new(
+                    playerPos.X + math.random(-3, 3),
+                    playerPos.Y - 5,
+                    playerPos.Z + math.random(-3, 3)
+                )
+                pcall(function()
+                    if item.PrimaryPart then
+                        item:SetPrimaryPartCFrame(CFrame.new(targetPosition))
+                    else
+                        local mainPart = item:FindFirstChildOfClass("BasePart")
+                        if mainPart then
+                            local offset = targetPosition - mainPart.Position
+                            for _, part in pairs(item:GetDescendants()) do
+                                if part:IsA("BasePart") then
+                                    part.CFrame = part.CFrame + offset
+                                end
+                            end
+                        end
+                    end
+                end)
+                task.wait(0.05)
+            end
+        end
+        if count > 0 then
+            createNotif("AutoFarmLogs", "Wait! " .. count .. " " .. folderName, 1)
+        end
+        return count
+    end
+
+    if workspace.Map:FindFirstChild("Landmarks") then
+        treesFound += teleportTreesFromFolder(workspace.Map.Landmarks, "Landmarks")
+    end
+    if workspace.Map:FindFirstChild("Foliage") then
+        treesFound += teleportTreesFromFolder(workspace.Map.Foliage, "Foliage")
+    end
+
+    createNotif("AutoFarmLogs", "AutoFarm Start " .. treesFound .. " Equip your Axe", 3)
+    return treesFound > 0
+end
+
+-- เทเลพอร์ต Logs
+local function teleportAllLogsToPlayer()
+    createNotif("AutoFarmLogs", "Wait.", 2)
+    local character = player.Character
+    if not (character and character:FindFirstChild("HumanoidRootPart")) then
+        createNotif("AutoFarmLogs", "Player not found!", 3)
+        return false
+    end
+
+    local playerPos = character.HumanoidRootPart.Position
+    local logsFound = 0
+    if not workspace:FindFirstChild("Items") then
+        createNotif("AutoFarmLogs", "You're not in the game?", 3)
+        return false
+    end
+
+    for _, item in pairs(workspace.Items:GetChildren()) do
+        if item:FindFirstChild("Meshes/log_Cylinder") then
+            logsFound += 1
+            local logPosition = Vector3.new(
+                playerPos.X + math.random(-4, 4),
+                playerPos.Y + 1,
+                playerPos.Z + math.random(-4, 4)
+            )
+            pcall(function()
+                if item.PrimaryPart then
+                    item:SetPrimaryPartCFrame(CFrame.new(logPosition))
+                else
+                    local mainPart = item:FindFirstChildOfClass("BasePart")
+                    if mainPart then
+                        local offset = logPosition - mainPart.Position
+                        for _, part in pairs(item:GetChildren()) do
+                            if part:IsA("BasePart") then
+                                part.CFrame = part.CFrame + offset
+                            end
+                        end
+                    end
+                end
+            end)
+            task.wait(0.03)
+        end
+    end
+
+    createNotif("AutoFarmLogs", "Collected " .. logsFound .. " Logs from AutoLogFarm", 3)
+    return logsFound > 0
+end
+
+-- Toggle หลัก
 Tabs.Main:Toggle({
     Title = "Auto Tree-Farm (Mobile/PC)",
     Default = false,
     Callback = function(state)
         autoTreeFarmActive = state
+        autoFarmEnabled = state
+
         if state then
-            autoTreeFarmThread = task.spawn(function()
-                local ReplicatedStorage = game:GetService("ReplicatedStorage")
-                local ToolDamageObject = ReplicatedStorage:WaitForChild("RemoteEvents"):WaitForChild("ToolDamageObject")
-                local Players = game:GetService("Players")
-                local LocalPlayer = Players.LocalPlayer
-                local Backpack = LocalPlayer:WaitForChild("Backpack")
-
-                local function getAllTrees()
-                    local map = workspace:FindFirstChild("Map")
-                    if not map then return {} end
-                    local landmarks = map:FindFirstChild("Landmarks") or map:FindFirstChild("Foliage")
-                    if not landmarks then return {} end
-                    local trees = {}
-                    for _, tree in ipairs(landmarks:GetChildren()) do
-                        if tree.Name == "Small Tree" and tree:IsA("Model") and tree.Parent then
-                            local trunk = tree:FindFirstChild("Trunk") or tree.PrimaryPart
-                            if trunk then
-                                table.insert(trees, {tree = tree, trunk = trunk})
-                            end
-                        end
-                    end
-                    return trees
+            createNotif("AutoFarmLogs", "AutoFarm Started", 2)
+            if teleportToAirAndAnchor() then
+                task.wait(1)
+                if teleportAllTreesToPlayer() then
+                    task.wait(2)
+                    clickConnection = RunService.Heartbeat:Connect(simulateClick)
                 end
-
-                local function getAxe()
-                    local inv = LocalPlayer:FindFirstChild("Inventory")
-                    if not inv then return nil end
-                    return inv:FindFirstChild("Old Axe") or inv:FindFirstChildWhichIsA("Tool")
-                end
-
-                while autoTreeFarmActive do
-                    local trees = getAllTrees()
-                    for _, t in ipairs(trees) do
-                        if not autoTreeFarmActive then break end
-                        if t.tree and t.tree.Parent then
-                            local char = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
-                            local hrp = char:FindFirstChild("HumanoidRootPart", 3)
-                            if hrp and t.trunk then
-                                local treeCFrame = t.trunk.CFrame
-                                local rightVector = treeCFrame.RightVector
-                                local targetPosition = treeCFrame.Position + rightVector * 3
-                                hrp.CFrame = CFrame.new(targetPosition)
-                                task.wait(0.25)
-                                local axe = getAxe()
-                                if axe then
-                                    if axe.Parent == Backpack then
-                                        axe.Parent = char
-                                        task.wait(0.15)
-                                    end
-                                    while t.tree.Parent and autoTreeFarmActive do
-                                        pcall(function() axe:Activate() end)
-                                        local args = {
-                                            t.tree,
-                                            axe,
-                                            "1_8264699301",
-                                            t.trunk.CFrame
-                                        }
-                                        pcall(function() ToolDamageObject:InvokeServer(unpack(args)) end)
-                                        task.wait(1)
-                                    end
-                                end
-                            end
-                        end
-                        task.wait(0.5)
-                    end
-                    task.wait(1)
-                end
-            end)
-        else
-            if autoTreeFarmThread then
-                task.cancel(autoTreeFarmThread)
-                autoTreeFarmThread = nil
             end
+        else
+            createNotif("AutoFarmLogs", "AutoFarm Stopped!", 2)
+            if clickConnection then
+                clickConnection:Disconnect()
+                clickConnection = nil
+            end
+            unanchorPlayer()
+            task.spawn(function()
+                task.wait(0.5)
+                teleportAllLogsToPlayer()
+            end)
         end
     end
 })
+
 
 local infHungerActive = false
 local infHungerThread
@@ -383,68 +533,117 @@ Tabs.Main:Toggle({
     end
 })
 
-Tabs.Main:Button({Title="Auto Cooked (Fixed)", Callback=function()
-    local campfirePos = Vector3.new(1.87, 4.33, -3.67)
-    for _, item in pairs(workspace.Items:GetChildren()) do
-        if item:IsA("Model") or item:IsA("BasePart") then
-            local name = item.Name:lower()
-            if name:find("Steak") or name:find("Morsel") then
-                local part = item:FindFirstChildWhichIsA("BasePart") or item
-                if part then
-                    part.CFrame = CFrame.new(campfirePos + Vector3.new(math.random(-2,2), 0.5, math.random(-2,2)))
-                end
-            end
-        end
-    end
-end})
+local RemoteEvents = game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents")
+local RequestStartDraggingItem = RemoteEvents:FindFirstChild("RequestStartDraggingItem")
+local StopDraggingItem = RemoteEvents:FindFirstChild("StopDraggingItem")
 
-Tabs.Main:Button({Title="Auto Fuel-Campfire (Log)", Callback=function()
-    local campfirePos = Vector3.new(1.87, 4.33, -3.67)
-    for _, item in pairs(workspace.Items:GetChildren()) do
-        if item:IsA("Model") or item:IsA("BasePart") then
-            local name = item.Name:lower()
-            if name:find("log") then
-                local part = item:FindFirstChildWhichIsA("BasePart") or item
-                if part then
-                    part.CFrame = CFrame.new(campfirePos + Vector3.new(math.random(-2,2), 0.5, math.random(-2,2)))
-                end
-            end
-        end
-    end
-end})
+Tabs.Main:Button({
+    Title = "Auto Cooked (Fixed)",
+    Callback = function()
+        local campfirePos = Vector3.new(1.87, 4.33, -3.67)
+        for _, item in pairs(workspace.Items:GetChildren()) do
+            if item:IsA("Model") or item:IsA("BasePart") then
+                local name = item.Name:lower()
+                if name:find("steak") or name:find("morsel") then
+                    local part = item:FindFirstChildWhichIsA("BasePart") or item
+                    if part then
+                        -- เริ่มดึง
+                        if RequestStartDraggingItem then
+                            RequestStartDraggingItem:FireServer(part)
+                        end
 
-Tabs.Main:Button({Title="Auto Fuel-Campfire (Coal)", Callback=function()
-    local campfirePos = Vector3.new(1.87, 4.33, -3.67)
-    for _, item in pairs(workspace.Items:GetChildren()) do
-        if item:IsA("Model") or item:IsA("BasePart") then
-            local name = item.Name:lower()
-            if name:find("coal") then
-                local part = item:FindFirstChildWhichIsA("BasePart") or item
-                if part then
-                    part.CFrame = CFrame.new(campfirePos + Vector3.new(math.random(-2,2), 0.5, math.random(-2,2)))
-                end
-            end
-        end
-    end
-end})
+                        task.wait(0.1) -- เว้นให้เซิร์ฟเวอร์รับข้อมูล
 
-Tabs.Main:Button({Title="Auto Fuel-Campfire (Fuel Canister)", Callback=function()
-    local campfirePos = Vector3.new(1.87, 4.33, -3.67)
-    for _, item in pairs(workspace.Items:GetChildren()) do
-        if item:IsA("Model") or item:IsA("BasePart") then
-            local name = item.Name:lower()
-            if name:find("fuel canister") then
-                local part = item:FindFirstChildWhichIsA("BasePart") or item
-                if part then
-                    part.CFrame = CFrame.new(campfirePos + Vector3.new(math.random(-2,2), 0.5, math.random(-2,2)))
+                        -- หยุดดึง (วาง)
+                        if StopDraggingItem then
+                            StopDraggingItem:FireServer(part)
+                        end
+
+                        -- ย้ายไปที่กองไฟ
+                        part.CFrame = CFrame.new(
+                            campfirePos + Vector3.new(math.random(-2, 2), 0.5, math.random(-2, 2))
+                        )
+                    end
                 end
             end
         end
     end
-end})
+})
+
+Tabs.Main:Button({
+    Title = "Auto Fuel-Campfire (Log)",
+    Callback = function()
+        local campfirePos = Vector3.new(1.87, 4.33, -3.67)
+
+        for _, item in pairs(workspace.Items:GetChildren()) do
+            if item:IsA("Model") or item:IsA("BasePart") then
+                local name = item.Name:lower()
+                if name:find("log") then
+                    local part = item:FindFirstChildWhichIsA("BasePart") or item
+                    if part then
+                        RequestStartDraggingItem:FireServer(part)
+                        task.wait(0.1)
+                        StopDraggingItem:FireServer(part)
+                        part.CFrame = CFrame.new(
+                            campfirePos + Vector3.new(math.random(-2, 2), 0.5, math.random(-2, 2))
+                        )
+                    end
+                end
+            end
+        end
+    end
+})
+
+-- Auto Fuel-Campfire (Coal)
+Tabs.Main:Button({
+    Title = "Auto Fuel-Campfire (Coal)",
+    Callback = function()
+        local campfirePos = Vector3.new(1.87, 4.33, -3.67)
+        for _, item in pairs(workspace.Items:GetChildren()) do
+            if item:IsA("Model") or item:IsA("BasePart") then
+                local name = item.Name:lower()
+                if name:find("coal") then
+                    local part = item:FindFirstChildWhichIsA("BasePart") or item
+                    if part then
+                        RequestStartDraggingItem:FireServer(part)
+                        task.wait(0.1)
+                        StopDraggingItem:FireServer(part)
+                        part.CFrame = CFrame.new(
+                            campfirePos + Vector3.new(math.random(-2, 2), 0.5, math.random(-2, 2))
+                        )
+                    end
+                end
+            end
+        end
+    end
+})
+
+-- Auto Fuel-Campfire (Fuel Canister)
+Tabs.Main:Button({
+    Title = "Auto Fuel-Campfire (Fuel Canister)",
+    Callback = function()
+        local campfirePos = Vector3.new(1.87, 4.33, -3.67)
+        for _, item in pairs(workspace.Items:GetChildren()) do
+            if item:IsA("Model") or item:IsA("BasePart") then
+                local name = item.Name:lower()
+                if name:find("fuel canister") then
+                    local part = item:FindFirstChildWhichIsA("BasePart") or item
+                    if part then
+                        RequestStartDraggingItem:FireServer(part)
+                        task.wait(0.1)
+                        StopDraggingItem:FireServer(part)
+                        part.CFrame = CFrame.new(
+                            campfirePos + Vector3.new(math.random(-2, 2), 0.5, math.random(-2, 2))
+                        )
+                    end
+                end
+            end
+        end
+    end
+})
 
 -- ========= Auto Tab
-local FuelList = { 
+local FuelList = {  
     "Coal", "Oil Barrel", "Fuel Canister", "Biofuel"
 }
 
@@ -453,7 +652,7 @@ local selectedFuel = FuelList[1] -- ค่าเริ่มต้น
 Tabs.Auto:Dropdown({
     Title = "Select Fuel", 
     Values = FuelList, 
-    Multi = true,
+    Multi = false, -- ถ้าต้องการให้เลือกทีละอัน ปรับเป็น false
     Callback = function(value)
         selectedFuel = value
         print("[DYHUB] Selected Fuel:", value)
@@ -473,7 +672,15 @@ Tabs.Auto:Button({
                 if name:find(lowerSelectedFuel) then
                     local part = item:FindFirstChildWhichIsA("BasePart") or item
                     if part then
-                        part.CFrame = CFrame.new(campfirePos + Vector3.new(math.random(-2,2), 0.5, math.random(-2,2)))
+                        -- ดึง
+                        RequestStartDraggingItem:FireServer(part)
+                        task.wait(0.1)
+                        -- วาง
+                        StopDraggingItem:FireServer(part)
+                        -- ย้ายไปกองไฟ
+                        part.CFrame = CFrame.new(
+                            campfirePos + Vector3.new(math.random(-2, 2), 0.5, math.random(-2, 2))
+                        )
                     end
                 end
             end
@@ -501,7 +708,12 @@ Tabs.Auto:Dropdown({
 Tabs.Auto:Button({
     Title = "Auto Workbrech", 
     Callback = function()
-        local campfirePos = CFrame.new(20.5397816, 6.25331163, -4.86815262, -0.0290346798, 8.43757775e-09, -0.999578416, 3.91288673e-08, 1, 7.30456273e-09, 0.999578416, -3.89002821e-08, -0.0290346798)
+        local workbrechPos = CFrame.new(
+            20.5397816, 6.25331163, -4.86815262,
+            -0.0290346798, 8.43757775e-09, -0.999578416,
+            3.91288673e-08, 1, 7.30456273e-09,
+            0.999578416, -3.89002821e-08, -0.0290346798
+        )
         local lowerSelectedWorkbrech = selectedWorkbrech:lower()
 
         for _, item in pairs(workspace.Items:GetChildren()) do
@@ -510,14 +722,19 @@ Tabs.Auto:Button({
                 if name:find(lowerSelectedWorkbrech) then
                     local part = item:FindFirstChildWhichIsA("BasePart") or item
                     if part then
-                        part.CFrame = campfirePos * CFrame.new(math.random(-2,2), 0.5, math.random(-2,2))
+                        -- ดึงไอเท็ม
+                        RequestStartDraggingItem:FireServer(part)
+                        task.wait(0.1)
+                        -- วางไอเท็ม
+                        StopDraggingItem:FireServer(part)
+                        -- ย้ายไปที่ Workbench
+                        part.CFrame = workbrechPos * CFrame.new(math.random(-2, 2), 0.5, math.random(-2, 2))
                     end
                 end
             end
         end
     end
 })
-
 
 -- ========= Esp Tab
 local ActiveEspPlayer = false
@@ -881,32 +1098,55 @@ end
 -----------------------------------------------------------------
 -- BRING TAB
 -----------------------------------------------------------------
-Tabs.Bring:Button({Title="Bring Everything (Up Size)",Callback=function()
-    for _, item in ipairs(workspace.Items:GetChildren()) do
-        local part = item:FindFirstChildWhichIsA("BasePart") or item:IsA("BasePart") and item
-        if part then
-            part.CFrame = LocalPlayer.Character.HumanoidRootPart.CFrame + Vector3.new(math.random(-25,25), 0, math.random(-25,25))
+Tabs.Bring:Button({
+    Title = "Bring Everything (Up Size)",
+    Callback = function()
+        local blockedName = "berry"  -- ชื่อไอเท็มที่ไม่ให้ดึง (lowercase)
+        for _, item in ipairs(workspace.Items:GetChildren()) do
+            local part = item:FindFirstChildWhichIsA("BasePart") or (item:IsA("BasePart") and item)
+            if part then
+                local name = item.Name:lower()
+                if name ~= blockedName then
+                    -- ดึงไอเท็ม
+                    RequestStartDraggingItem:FireServer(part)
+                    task.wait(0.1)
+                    -- วางไอเท็ม
+                    StopDraggingItem:FireServer(part)
+                    -- ย้ายไอเท็มมาใกล้ตัวผู้เล่น (สุ่มระยะ +/-25)
+                    part.CFrame = LocalPlayer.Character.HumanoidRootPart.CFrame + Vector3.new(math.random(-25,25), 0, math.random(-25,25))
+                end
+            end
         end
     end
-end})
+})
+
 Tabs.Bring:Button({Title="Bring Logs All", Callback=function()
     local root = LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
+    if not root then return end
     for _, item in pairs(workspace.Items:GetChildren()) do
         if item.Name:lower():find("log") and item:IsA("Model") then
             local main = item:FindFirstChildWhichIsA("BasePart")
             if main then
+                RequestStartDraggingItem:FireServer(main)
+                task.wait(0.1)
+                StopDraggingItem:FireServer(main)
                 main.CFrame = root.CFrame * CFrame.new(math.random(-15,15), 0, math.random(-15,15))
             end
         end
     end
 end})
+
 Tabs.Bring:Button({Title="Bring Pelts/Foot All", Callback=function()
     local root = LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
+    if not root then return end
     for _, item in pairs(workspace.Items:GetChildren()) do
         local name = item.Name:lower()
         if (name:find("bunny foot") or name:find("wolf pelt") or name:find("alpha wolf pelt") or name:find("bear pelt")) and item:IsA("Model") then
             local main = item:FindFirstChildWhichIsA("BasePart")
             if main then
+                RequestStartDraggingItem:FireServer(main)
+                task.wait(0.1)
+                StopDraggingItem:FireServer(main)
                 main.CFrame = root.CFrame * CFrame.new(math.random(-15,15), 0, math.random(-15,15))
             end
         end
@@ -915,29 +1155,37 @@ end})
 
 Tabs.Bring:Button({Title="Bring Fuel All", Callback=function()
     local root = LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
+    if not root then return end
     for _, item in pairs(workspace.Items:GetChildren()) do
         local name = item.Name:lower()
-        if (name:find("fuel canister") or name:find("oil barrel") or name:find("coal") or name:find("Biofuel")) and item:IsA("Model") then
+        if (name:find("fuel canister") or name:find("oil barrel") or name:find("coal") or name:find("biofuel")) and item:IsA("Model") then
             local main = item:FindFirstChildWhichIsA("BasePart")
             if main then
+                RequestStartDraggingItem:FireServer(main)
+                task.wait(0.1)
+                StopDraggingItem:FireServer(main)
                 main.CFrame = root.CFrame * CFrame.new(math.random(-15,15), 0, math.random(-15,15))
             end
         end
     end
 end})
+
 Tabs.Bring:Button({ Title = "Bring Scrap All", Callback = function()
     local root = LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
     if not root then return end
     local scrapNames = {
-        ["tyre"] = true, ["Old Car Engine"] = true, ["Washing Machine"] = true, ["Metal Chair"] = true, ["UFO Component"] = true, ["Cultist Prototype"] = true, ["sheet metal"] = true, ["broken fan"] = true, ["bolt"] = true, ["old radio"] = true, ["ufo junk"] = true, ["ufo scrap"] = true, ["broken microwave"] = true,
-    } 
+        ["tyre"] = true, ["old car engine"] = true, ["washing machine"] = true, ["metal chair"] = true, ["ufo component"] = true, ["cultist prototype"] = true, ["sheet metal"] = true, ["broken fan"] = true, ["bolt"] = true, ["old radio"] = true, ["ufo junk"] = true, ["ufo scrap"] = true, ["broken microwave"] = true,
+    }
     for _, item in pairs(workspace.Items:GetChildren()) do
         if item:IsA("Model") then
             local itemName = item.Name:lower()
-            for scrapName, _ in pairs(scrapNames) do
+            for scrapName in pairs(scrapNames) do
                 if itemName:find(scrapName) then
                     local main = item:FindFirstChildWhichIsA("BasePart")
                     if main then
+                        RequestStartDraggingItem:FireServer(main)
+                        task.wait(0.1)
+                        StopDraggingItem:FireServer(main)
                         main.CFrame = root.CFrame * CFrame.new(math.random(-15,15), 0, math.random(-15,15))
                     end
                     break
@@ -946,90 +1194,152 @@ Tabs.Bring:Button({ Title = "Bring Scrap All", Callback = function()
         end
     end
 end })
+
 Tabs.Bring:Button({Title="Bring Food All", Callback=function()
     local root = LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
+    if not root then return end
     for _, item in pairs(workspace.Items:GetChildren()) do
         local name = item.Name:lower()
-        if (name:find("Steak") or name:find("sandwich") or name:find("morsel") or name:find("cake") or name:find("carrot") or name:find("pumpkin") or name:find("corn") or name:find("cooked") or name:find("berry") or name:find("apple") or name:find("steak") or name:find("stew") or name:find("hearty stew")) and item:IsA("Model") then
+        if (name:find("steak") or name:find("sandwich") or name:find("morsel") or name:find("cake") or name:find("carrot") or name:find("pumpkin") or name:find("corn") or name:find("cooked") or name:find("berry") or name:find("apple") or name:find("stew") or name:find("hearty stew")) and item:IsA("Model") then
             local main = item:FindFirstChildWhichIsA("BasePart")
             if main then
+                RequestStartDraggingItem:FireServer(main)
+                task.wait(0.1)
+                StopDraggingItem:FireServer(main)
                 main.CFrame = root.CFrame * CFrame.new(math.random(-15,15), 0, math.random(-15,15))
             end
         end
     end
 end})
+
 Tabs.Bring:Button({Title="Bring Armor All", Callback=function()
     local root = LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
+    if not root then return end
     for _, item in pairs(workspace.Items:GetChildren()) do
         local name = item.Name:lower()
-        if (name:find("Riot Shield") or name:find("Alien Armor") or name:find("Thorn Body") or name:find("Iron Body") or name:find("Leather Body")) and item:IsA("Model") then
+        if (name:find("riot shield") or name:find("alien armor") or name:find("thorn body") or name:find("iron body") or name:find("leather body")) and item:IsA("Model") then
             local main = item:FindFirstChildWhichIsA("BasePart")
             if main then
+                RequestStartDraggingItem:FireServer(main)
+                task.wait(0.1)
+                StopDraggingItem:FireServer(main)
                 main.CFrame = root.CFrame * CFrame.new(math.random(-15,15), 0, math.random(-15,15))
             end
         end
     end
 end})
+
 Tabs.Bring:Button({Title="Bring Pelts/Foot All", Callback=function()
     local root = LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
+    if not root then return end
     for _, item in pairs(workspace.Items:GetChildren()) do
         local name = item.Name:lower()
         if (name:find("bunny foot") or name:find("wolf pelt") or name:find("alpha wolf pelt") or name:find("bear pelt")) and item:IsA("Model") then
             local main = item:FindFirstChildWhichIsA("BasePart")
             if main then
+                RequestStartDraggingItem:FireServer(main)
+                task.wait(0.1)
+                StopDraggingItem:FireServer(main)
                 main.CFrame = root.CFrame * CFrame.new(math.random(-25,25), 0, math.random(-25,25))
             end
         end
     end
 end})
+
 Tabs.Bring:Button({Title="Bring Materials All", Callback=function()
     local root = LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
+    if not root then return end
     for _, item in pairs(workspace.Items:GetChildren()) do
         local name = item.Name:lower()
         if (name:find("scrap") or name:find("cultist gem") or name:find("mossy coin")) and item:IsA("Model") then
             local main = item:FindFirstChildWhichIsA("BasePart")
             if main then
+                RequestStartDraggingItem:FireServer(main)
+                task.wait(0.1)
+                StopDraggingItem:FireServer(main)
                 main.CFrame = root.CFrame * CFrame.new(math.random(-25,25), 0, math.random(-25,25))
             end
         end
     end
 end})
+
 Tabs.Bring:Button({Title="Bring Healing All", Callback=function()
     local root = LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
+    if not root then return end
     for _, item in pairs(workspace.Items:GetChildren()) do
         local name = item.Name:lower()
-        if (name:find("Medkit") or name:find("Bandage")) and item:IsA("Model") then
+        if (name:find("medkit") or name:find("bandage")) and item:IsA("Model") then
             local main = item:FindFirstChildWhichIsA("BasePart")
             if main then
+                RequestStartDraggingItem:FireServer(main)
+                task.wait(0.1)
+                StopDraggingItem:FireServer(main)
                 main.CFrame = root.CFrame * CFrame.new(math.random(-15,15), 0, math.random(-15,15))
             end
         end
     end
 end})
+
 Tabs.Bring:Button({Title="Bring Lost Children All", Callback=function()
     local root = LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
+    if not root then return end
     for _, item in pairs(workspace.Characters:GetChildren()) do
         local name = item.Name:lower()
         if (name:find("lost child") or name:find("lost child2") or name:find("lost child3") or name:find("lost child4")) and item:IsA("Model") then
             local main = item:FindFirstChildWhichIsA("BasePart")
             if main then
+                RequestStartDraggingItem:FireServer(main)
+                task.wait(0.1)
+                StopDraggingItem:FireServer(main)
                 main.CFrame = root.CFrame * CFrame.new(math.random(-5,5), 0, math.random(-5,5))
             end
         end
     end
 end})
-Tabs.Bring:Button({Title="Bring Chest All (Beta)", Callback=function()
-    local root = LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
-    for _, item in pairs(workspace.Items:GetChildren()) do
-        local name = item.Name:lower()
-        if (name:find("Item Chest") or name:find("Alien Chest") or name:find("Item Chest2") or name:find("Item Chest3") or name:find("Item Chest4") or name:find("Item Chest5") or name:find("Item Chest6")) and item:IsA("Model") then
-            local main = item:FindFirstChildWhichIsA("BasePart")
-            if main then
-                main.CFrame = root.CFrame * CFrame.new(math.random(-5,5), 0, math.random(-5,5))
+
+Tabs.Bring:Button({
+    Title = "Bring Chest All (Beta)",
+    Callback = function()
+        local root = LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
+        if not root then return end
+
+        for _, item in pairs(workspace.Items:GetChildren()) do
+            local name = item.Name:lower()
+            if item:IsA("Model") and (
+                name:find("item chest") or
+                name:find("alien chest") or
+                name:find("item chest2") or
+                name:find("item chest3") or
+                name:find("item chest4") or
+                name:find("item chest5") or
+                name:find("item chest6") or
+                name:find("chest") or
+                name:find("stronghold diamond chest") or
+                name:find("iron chest") or
+                name:find("legendary chest") or
+                name:find("gold chest") or
+                name:find("diamond chest") or
+                name:find("ice chest") or
+                name:find("cold chest")
+            ) then
+                -- ตรวจสอบว่ามี PrimaryPart หรือไม่
+                if item.PrimaryPart then
+                    -- ย้ายทั้ง model โดยย้าย PrimaryPart ไปยังตำแหน่งใกล้ผู้เล่น
+                    item:SetPrimaryPartCFrame(root.CFrame * CFrame.new(math.random(-10,10), 0, math.random(-10,10)))
+                else
+                    -- ถ้าไม่มี PrimaryPart ให้พยายามตั้ง PrimaryPart เป็น BasePart ตัวแรก
+                    local basePart = item:FindFirstChildWhichIsA("BasePart")
+                    if basePart then
+                        item.PrimaryPart = basePart
+                        item:SetPrimaryPartCFrame(root.CFrame * CFrame.new(math.random(-10,10), 0, math.random(-10,10)))
+                    end
+                end
             end
         end
     end
-end})
+})
+
+
 -- Weapon
 Tabs.BringWeapon:Button({Title="Bring Morningstar", Callback=function() bringItemsByName("Morningstar") end})
 Tabs.BringWeapon:Button({Title="Bring Laser Sword", Callback=function() bringItemsByName("Laser Sword") end})
