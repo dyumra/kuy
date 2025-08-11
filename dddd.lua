@@ -109,7 +109,7 @@ repeat task.wait() until Confirmed
 
 local Window = WindUI:CreateWindow({
     Folder = "DYHUB Config | 99NitF | V5",
-    Title = "DYHUB - 99 Night in the Forest @ In-game (Version: 2.0)",
+    Title = "DYHUB - 99 Night in the Forest @ In-game (Beta)",
     IconThemed = true,
     Icon = "star",
     Author = "DYHUB (dsc.gg/dyhub)",
@@ -133,6 +133,7 @@ local Tabs = {
     Player = Window:Tab({ Title = "Player", Icon = "user" }),
     Esp = Window:Tab({ Title = "Esp", Icon = "eye" }),
     Auto = Window:Tab({ Title = "Auto", Icon = "crown" }),
+    Teleport = Window:Tab({ Title = "Teleport", Icon = "zap" }),
     Bring = Window:Tab({ Title = "Bring All", Icon = "atom" }),
     BringGeneral = Window:Tab({ Title = "General", Icon = "badge-plus" }),
     BringWeapon = Window:Tab({ Title = "Weapon", Icon = "swords" }),
@@ -141,6 +142,75 @@ local Tabs = {
     Hitbox = Window:Tab({ Title = "Hitbox", Icon = "target" }),
     Misc = Window:Tab({ Title = "Misc", Icon = "file-cog" }),
 }
+
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+
+local TeleportList = {}  -- List of items to teleport to
+
+local selectedTeleportItem = nil -- Default selection is none
+
+-- Function to update TeleportList from workspace.Items
+local function updateTeleportList()
+    TeleportList = {}
+    for _, item in pairs(workspace.Items:GetChildren()) do
+        if item:IsA("Model") or item:IsA("BasePart") then
+            table.insert(TeleportList, item.Name)
+        end
+    end
+end
+
+-- Initial update
+updateTeleportList()
+
+-- Create Dropdown to select teleport item
+Tabs.Teleport:Dropdown({
+    Title = "Select Teleport Item",  -- Dropdown title
+    Values = TeleportList,
+    Multi = false,
+    Callback = function(value)
+        selectedTeleportItem = value
+        print("[DYHUB] Selected Teleport Item:", value)
+    end,
+})
+
+-- Update Dropdown values every 3 seconds (if your UI library supports it)
+task.spawn(function()
+    while true do
+        updateTeleportList()
+        if Tabs.Auto and Tabs.Auto.UpdateValues then
+            Tabs.Auto:UpdateValues("Select Teleport Item", TeleportList)
+        end
+        task.wait(3)
+    end
+end)
+
+-- Button to teleport player to selected item
+Tabs.Teleport:Button({
+    Title = "Teleport to Selected Item",
+    Callback = function()
+        if not selectedTeleportItem then
+            print("[DYHUB] Please select an item to teleport to first.")
+            return
+        end
+
+        for _, item in pairs(workspace.Items:GetChildren()) do
+            if item.Name == selectedTeleportItem then
+                local part = item:FindFirstChildWhichIsA("BasePart") or item
+                if part then
+                    local character = LocalPlayer.Character
+                    if character and character:FindFirstChild("HumanoidRootPart") then
+                        character.HumanoidRootPart.CFrame = part.CFrame * CFrame.new(0, 3, 0)
+                        print("[DYHUB] Teleported to", selectedTeleportItem)
+                        break
+                    else
+                        print("[DYHUB] Character not found.")
+                    end
+                end
+            end
+        end
+    end
+})
 
 getgenv().Lowhp = false
 getgenv().AutoCampAtNight = false
@@ -161,16 +231,12 @@ Tabs.Auto:Toggle({
                         local healthPercent = humanoid.Health / humanoid.MaxHealth
                         local distance = (hrp.Position - campPosition).Magnitude
 
-                        if distance > 33 then
-                            -- ถ้าอยู่ไกล camp มากกว่า 33 stud ดึงกลับ camp ทันที ไม่สน HP
+                        if healthPercent <= 0.4 and distance > 33 then
+                            -- ถ้าเลือดต่ำกว่า 40% และอยู่ไกล camp เกิน 33 stud ให้วาร์ปกลับ
                             hrp.CFrame = CFrame.new(campPosition)
                             task.wait(3)  -- รอ 3 วิ ก่อนเช็คใหม่
-                        elseif healthPercent <= 0.4 then
-                            -- ถ้า HP ต่ำกว่า 40% แต่ยังอยู่ใน camp (<=33 stud) ไม่ต้องวาร์ป
-                            -- แค่รอเช็คใหม่
-                            task.wait(1)
                         else
-                            -- ปกติ ไม่ต้องทำอะไร รอเช็คใหม่
+                            -- กรณีอื่นๆ รอเช็คใหม่
                             task.wait(1)
                         end
                     else
@@ -181,6 +247,7 @@ Tabs.Auto:Toggle({
         end
     end
 })
+
 
 Tabs.Auto:Toggle({
     Title = "Auto to Campfire (At Night - Once per Night)",
@@ -644,7 +711,7 @@ Tabs.Main:Button({
 
 -- ========= Auto Tab
 local FuelList = {  
-    "Coal", "Oil Barrel", "Fuel Canister", "Biofuel"
+    "Log", "Coal", "Oil Barrel", "Fuel Canister", "Biofuel"
 }
 
 local selectedFuel = FuelList[1] -- ค่าเริ่มต้น
