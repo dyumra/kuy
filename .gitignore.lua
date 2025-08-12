@@ -260,6 +260,7 @@ local premiumUsers = {
     ["TH0PUM_KUNG"] = {Tag = "oszq_", Time = "Days: -1"},
     ["Fsaiohs"] = {Tag = "oszq_", Time = "Year: 200"},
     ["Go_Ertadx4"] = {Tag = "Free", Time = "Days: -1"},
+    ["Hanehxo91"] = {Tag = "Free", Time = "Days: -1"},
     ["1234563210"] = {Tag = "oszq_", Time = "Days: -1"},
     ["182735417"] = {Tag = "oszq_", Time = "Days: -1"},
 
