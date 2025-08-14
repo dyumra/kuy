@@ -282,11 +282,11 @@ local premiumUsers = {
 -- ====================== Booster ==============================
 
     ["Monkeycheese3365"] = {Tag = "meboop90", Time = "Days: 14"}, -- 25/7/2025 - 08/8/2025
-    ["Vincenzoxvz4"] = {Tag = "valkyrie6091", Time = "Days: 14"}, -- 30/7/2025 - 13/8/2025
+    ["jssjshszs762"] = {Tag = "rosenest_ag8w", Time = "Days: 3"},
 
 -- ====================== Give Away ============================
 
-    ["jssjshszs762"] = {Tag = "rosenest_ag8w", Time = "Days: 3"}, -- 13th 20:00
+    ["0"] = {Tag = "0", Time = "Days: 3"},
     ["0"] = {Tag = "0", Time = "Time: 1"},
     ["0"] = {Tag = "0", Time = "Days: 1"},
     ["0"] = {Tag = "0", Time = "Days: 1"},
