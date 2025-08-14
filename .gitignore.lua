@@ -209,9 +209,6 @@ local FreeVersionallowedGamesByPlaceId = {
 }
 
 -- ===================== Premium Version ==========================
-local allowedGamesforPremiumByUserId = {
-    [63300487] = {name = "Dinosaur Simulator", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/dinosaursimulator.lua"},
-}
     
 local allowedGamesforPremiumByCreatorId = {
     [3049798] = {name = "Doors", url = "https://raw.githubusercontent.com/KINGHUB01/BlackKing-obf/main/Doors%20Blackking%20And%20BobHub"},
@@ -303,9 +300,8 @@ local premiumUsers = {
 
 local placeId = tostring(game.PlaceId)
 local creatorId = tostring(game.CreatorId)
-local userId = tostring(game.UserId)
 
-local isPremiumGame = (AllowGameforPremiumByPlaceId[placeId] ~= nil) or (allowedGamesforPremiumByCreatorId[tonumber(creatorId)] ~= nil) or (allowedGamesforPremiumByuUserId[tonumber(userId)] ~= nil)
+local isPremiumGame = (AllowGameforPremiumByPlaceId[placeId] ~= nil) or (allowedGamesforPremiumByCreatorId[tonumber(creatorId)] ~= nil)
 local gameData = FreeVersionallowedGamesByPlaceId[placeId] or FreeVersionallowedGamesByCreatorId[tonumber(creatorId)] or allowedGamesforPremiumByCreatorId[tonumber(creatorId)] or AllowGameforPremiumByPlaceId[placeId]
 
 if not gameData then
