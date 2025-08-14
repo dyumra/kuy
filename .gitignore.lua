@@ -261,7 +261,7 @@ local premiumUsers = {
     ["Yolmar_43"] = {Tag = "dyumraisgoodguy", Time = "Days: 99999999"},
     ["dyhub_01L01"] = {Tag = "DYHUB01", Time = "Days: -1"},
     ["dyumradyumra"] = {Tag = "KUY", Time = "Time: @Sigma"},
-    ["Kyn8s"] = {Tag = "kyn8s", Time = "Days: 7"},
+    ["Kyn8s"] = {Tag = "kyn8s", Time = "Days: 88888888"},
     ["TH0PUM_KUNG"] = {Tag = "oszq_", Time = "Days: -1"},
     ["Fsaiohs"] = {Tag = "oszq_", Time = "Year: 200"},
     ["Go_Ertadx4"] = {Tag = "Free", Time = "Days: -1"},
