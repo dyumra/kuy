@@ -252,57 +252,101 @@ local AllowGameforPremiumByPlaceId = {
     ["5991163185"] = {name = "Spray Print", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/SP.lua"},
 }
 
--- Load Premium Users list from GitHub (raw file)
-local premiumUsers = (function()
-    local success, result = pcall(function()
-        local code = game:HttpGet("https://raw.githubusercontent.com/dyumra/Whitelist/refs/heads/main/DYHUB-PREMIUM")
-        local func = loadstring(code)
-        return func and func()
-    end)
-    return success and result or {}
-end)()
+--// CONFIG
+local PREMIUM_URL = "https://raw.githubusercontent.com/dyumra/Whitelist/refs/heads/main/DYHUB-PREMIUM"
 
--- Example: Allowed Games Data (replace with your own tables)
-local AllowGameforPremiumByPlaceId = {}
-local allowedGamesforPremiumByCreatorId = {}
-local FreeVersionallowedGamesByPlaceId = {}
-local FreeVersionallowedGamesByCreatorId = {}
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+local StarterGui = game:GetService("StarterGui")
 
-local placeId = tostring(game.PlaceId)
-local creatorId = tonumber(game.CreatorId)
-
-local isPremiumGame = (AllowGameforPremiumByPlaceId[placeId] ~= nil) 
-    or (allowedGamesforPremiumByCreatorId[creatorId] ~= nil)
-
-local gameData = FreeVersionallowedGamesByPlaceId[placeId]
-    or FreeVersionallowedGamesByCreatorId[creatorId]
-    or allowedGamesforPremiumByCreatorId[creatorId]
-    or AllowGameforPremiumByPlaceId[placeId]
-
+--// Function: send notification
 local function notify(msg)
-    game.StarterGui:SetCore("SendNotification", {
+    StarterGui:SetCore("SendNotification", {
         Title = "DYHUB",
         Text = msg,
         Duration = 5
     })
 end
 
+--// Function: fetch and load premium users table from remote
+local function fetchPremiumUsers(url)
+    -- get remote text
+    local ok, content = pcall(function()
+        return game:HttpGet(url)
+    end)
+    if not ok or type(content) ~= "string" then
+        return {}
+    end
+
+    local function tryLoad(src)
+        local f = loadstring(src)
+        if not f then return nil end
+        local ok2, res = pcall(f)
+        if ok2 and type(res) == "table" then
+            return res
+        end
+        return nil
+    end
+
+    -- 1) try raw
+    local t = tryLoad(content)
+    if t then return t end
+
+    -- 2) strip leading comment before return
+    local fixed = content:gsub("^%-%-[^\n]*return", "return", 1)
+    t = tryLoad(fixed)
+    if t then return t end
+
+    -- 3) last resort: grab the first { ... } block
+    local body = content:match("{.*}")
+    if body then
+        t = tryLoad("return " .. body)
+        if t then return t end
+    end
+
+    return {}
+end
+
+--// Load premium users
+local premiumUsers = fetchPremiumUsers(PREMIUM_URL)
+
+--// Game data tables (replace with your own)
+local AllowGameforPremiumByPlaceId = {}
+local allowedGamesforPremiumByCreatorId = {}
+local FreeVersionallowedGamesByPlaceId = {}
+local FreeVersionallowedGamesByCreatorId = {}
+
+--// Detect game info
+local placeId = tostring(game.PlaceId)
+local creatorId = tostring(game.CreatorId)
+
+local isPremiumGame = (AllowGameforPremiumByPlaceId[placeId] ~= nil) 
+    or (allowedGamesforPremiumByCreatorId[tonumber(creatorId)] ~= nil)
+
+local gameData = FreeVersionallowedGamesByPlaceId[placeId] 
+    or FreeVersionallowedGamesByCreatorId[tonumber(creatorId)] 
+    or allowedGamesforPremiumByCreatorId[tonumber(creatorId)] 
+    or AllowGameforPremiumByPlaceId[placeId]
+
+--// Validate game
 if not gameData then
     notify("❌ This script is not supported in this game!")
     task.wait(4)
-    player:Kick("⚠️ Script not supported here.\n📊 Please run in supported games.\n🔗 dsc.gg/dyhub")
+    player:Kick("⚠️ Script not supported here.\n📊 Please run the script in supported games.\n🔗 Join our (dsc.gg/dyhub)")
     return
 end
 
+--// Premium check
 if isPremiumGame and not premiumUsers[player.Name] then
-    notify("⛔ Premium required to use this game!")
+    notify("⛔ You must be Premium to use this script in this game!")
     task.wait(4)
-    player:Kick("⛔ Premium only game!\n📊 Get premium to run this script here.\n🔗 dsc.gg/dyhub")
+    player:Kick("⛔ Premium only game!\n📊 Get premium to run this script here.\n🔗 Join our (dsc.gg/dyhub)")
     return
 end
 
+--// Load target game script
 local function loadScript()
-    if gameData and gameData.url then
+    if gameData.url then
         local success, err = pcall(function()
             loadstring(game:HttpGet(gameData.url))()
         end)
@@ -316,6 +360,7 @@ local function loadScript()
     end
 end
 
+--// Run
 if premiumUsers[player.Name] then
     notify("💳 Premium! No key required | @" .. premiumUsers[player.Name].Tag .. " | " .. premiumUsers[player.Name].Time)
     loadScript()
