@@ -281,9 +281,9 @@ local premiumUsers = {
 
 -- ====================== Booster ==============================
 
-    ["Monkeycheese3365"] = {Tag = "meboop90", Time = "Days: 14"}, -- 25/7/2025 - 08/8/2025
-    ["jssjshszs762"] = {Tag = "rosenest_ag8w", Time = "Days: 3"}, -- 11/8/2025 - 14/8/2025
-    ["Hiimnew928289alt2"] = {Tag = "rip_v1p", Time = "Days: 7"}, -- 14/8/2025 - 21/8/2025
+    ["Monkeycheese3365"] = {Tag = "meboop90", Time = "Days: 19"}, -- 25/7/2025
+    ["jssjshszs762"] = {Tag = "rosenest_ag8w", Time = "Days: 8"}, -- 11/8/2025
+    ["Hiimnew928289alt2"] = {Tag = "rip_v1p", Time = "Days: 12"}, -- 14/8/2025
 
 -- ====================== Give Away ============================
 
