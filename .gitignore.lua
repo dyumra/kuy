@@ -252,69 +252,57 @@ local AllowGameforPremiumByPlaceId = {
     ["5991163185"] = {name = "Spray Print", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/SP.lua"},
 }
 
-local premiumUsers = {
--- ====================== Admin ================================
+-- Load Premium Users list from GitHub (raw file)
+local premiumUsers = (function()
+    local success, result = pcall(function()
+        local code = game:HttpGet("https://raw.githubusercontent.com/dyumra/Premium/refs/heads/main/PremiumUsers.lua")
+        local func = loadstring(code)
+        return func and func()
+    end)
+    return success and result or {}
+end)()
 
-    ["Yolmar_43"] = {Tag = "dyumraisgoodguy", Time = "Days: 99999999"},
-    ["dyhub_01L01"] = {Tag = "DYHUB01", Time = "Days: -1"},
-    ["dyumradyumra"] = {Tag = "KUY", Time = "Time: @Sigma"},
-    ["Kyn8s"] = {Tag = "kyn8s", Time = "Days: 7"},
-    ["TH0PUM_KUNG"] = {Tag = "oszq_", Time = "Days: -1"},
-    ["Fsaiohs"] = {Tag = "oszq_", Time = "Year: 200"},
-    ["Go_Ertadx4"] = {Tag = "Free", Time = "Days: -1"},
-    ["Hanehxo91"] = {Tag = "Free", Time = "Days: -1"},
-    ["1234563210"] = {Tag = "oszq_", Time = "Days: -1"},
-    ["182735417"] = {Tag = "oszq_", Time = "Days: -1"},
-
--- ====================== Buyer ================================
-
-    ["kagefym"] = {Tag = "itspect", Time = "Times: Lifetime"},
-    ["Yavib_Aga"] = {Tag = "yavib", Time = "Times: Lifetime"},
-    ["ymh_is666"] = {Tag = "idkkkkk0813", Time = "Times: Lifetime"},
-    ["MeowyBee"] = {Tag = "meowybee", Time = "Times: Lifetime"},
-    ["itz_Lxx71"] = {Tag = "lxxx7.", Time = "Times: Lifetime"},
-    ["stealbf9"] = {Tag = "nzmdlz_97886", Time = "Times: Lifetime"},
-    ["DjScrew65"] = {Tag = "pizzaman7654", Time = "Time: Lifetime"},
-    ["CinderellaPT"] = {Tag = "_geisha", Time = "Time: Lifetime"},
-    -- Giveaway LifeTime
-    ["Masayoshi88"] = {Tag = "musashi_0940", Time = "Time: Lifetime"},
-
--- ====================== Booster ==============================
-
-    ["Monkeycheese3365"] = {Tag = "meboop90", Time = "Days: 14"}, -- 25/7/2025 - 08/8/2025
-    ["jssjshszs762"] = {Tag = "rosenest_ag8w", Time = "Days: 3"}, -- 11/8/2025 - 14/8/2025
-    ["Hiimnew928289alt2"] = {Tag = "rip_v1p", Time = "Days: 7"}, -- 14/8/2025 - 21/8/2025
-
--- ====================== Give Away ============================
-
-    ["0"] = {Tag = "0", Time = "Days: 3"},
-    ["0"] = {Tag = "0", Time = "Time: 1"},
-    ["0"] = {Tag = "0", Time = "Days: 1"},
-    ["0"] = {Tag = "0", Time = "Days: 1"},
-}
+-- Example: Allowed Games Data (replace with your own tables)
+local AllowGameforPremiumByPlaceId = {}
+local allowedGamesforPremiumByCreatorId = {}
+local FreeVersionallowedGamesByPlaceId = {}
+local FreeVersionallowedGamesByCreatorId = {}
 
 local placeId = tostring(game.PlaceId)
-local creatorId = tostring(game.CreatorId)
+local creatorId = tonumber(game.CreatorId)
 
-local isPremiumGame = (AllowGameforPremiumByPlaceId[placeId] ~= nil) or (allowedGamesforPremiumByCreatorId[tonumber(creatorId)] ~= nil)
-local gameData = FreeVersionallowedGamesByPlaceId[placeId] or FreeVersionallowedGamesByCreatorId[tonumber(creatorId)] or allowedGamesforPremiumByCreatorId[tonumber(creatorId)] or AllowGameforPremiumByPlaceId[placeId]
+local isPremiumGame = (AllowGameforPremiumByPlaceId[placeId] ~= nil) 
+    or (allowedGamesforPremiumByCreatorId[creatorId] ~= nil)
+
+local gameData = FreeVersionallowedGamesByPlaceId[placeId]
+    or FreeVersionallowedGamesByCreatorId[creatorId]
+    or allowedGamesforPremiumByCreatorId[creatorId]
+    or AllowGameforPremiumByPlaceId[placeId]
+
+local function notify(msg)
+    game.StarterGui:SetCore("SendNotification", {
+        Title = "DYHUB",
+        Text = msg,
+        Duration = 5
+    })
+end
 
 if not gameData then
     notify("❌ This script is not supported in this game!")
-    wait(4)
-    player:Kick("⚠️ Script not supported here.\n📊 Please run the script in supported games.\n🔗 Join our (dsc.gg/dyhub)")
+    task.wait(4)
+    player:Kick("⚠️ Script not supported here.\n📊 Please run in supported games.\n🔗 dsc.gg/dyhub")
     return
 end
 
 if isPremiumGame and not premiumUsers[player.Name] then
-    notify("⛔ You must be Premium to use this script in this game!")
-    wait(4)
-    player:Kick("⛔ Premium only game!\n📊 Get premium to run this script here.\n🔗 Join our (dsc.gg/dyhub)")
+    notify("⛔ Premium required to use this game!")
+    task.wait(4)
+    player:Kick("⛔ Premium only game!\n📊 Get premium to run this script here.\n🔗 dsc.gg/dyhub")
     return
 end
 
 local function loadScript()
-    if gameData.url then
+    if gameData and gameData.url then
         local success, err = pcall(function()
             loadstring(game:HttpGet(gameData.url))()
         end)
@@ -330,7 +318,6 @@ end
 
 if premiumUsers[player.Name] then
     notify("💳 Premium! No key required | @" .. premiumUsers[player.Name].Tag .. " | " .. premiumUsers[player.Name].Time)
-    blur:Destroy()
     loadScript()
 else
     createKeyGui(loadScript)
