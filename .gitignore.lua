@@ -255,7 +255,7 @@ local AllowGameforPremiumByPlaceId = {
 -- Load Premium Users list from GitHub (raw file)
 local premiumUsers = (function()
     local success, result = pcall(function()
-        local code = game:HttpGet("https://raw.githubusercontent.com/dyumra/Premium/refs/heads/main/PremiumUsers.lua")
+        local code = game:HttpGet("https://raw.githubusercontent.com/dyumra/Whitelist/refs/heads/main/DYHUB-PREMIUM")
         local func = loadstring(code)
         return func and func()
     end)
