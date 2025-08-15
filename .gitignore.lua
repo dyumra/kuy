@@ -1,4 +1,4 @@
--- ==================== Version: 2.40 ==========================
+-- ==================== Version: 2.50 ==========================
 local DYHUBTHEBEST = "dsc.gg/dyhub"
 -- ==================== Loader Script ==========================
 
@@ -281,13 +281,12 @@ local premiumUsers = {
     ["stealbf9"] = {Tag = "nzmdlz_97886", Time = "Times: Lifetime"},
     ["DjScrew65"] = {Tag = "pizzaman7654", Time = "Time: Lifetime"},
     ["CinderellaPT"] = {Tag = "_geisha", Time = "Time: Lifetime"},
+    ["Monkeycheese3365"] = {Tag = "meboop90", Time = "Time: Lifetime"},
     ["Denisamilcar7771"] = {Tag = "denisamilcar7778", Time = "Days: 7"},
     -- Giveaway LifeTime
     ["Masayoshi88"] = {Tag = "musashi_0940", Time = "Time: Lifetime"},
 
 -- ====================== Booster ==============================
-
-    ["Monkeycheese3365"] = {Tag = "meboop90", Time = "Days: 19"}, -- 25/7/2025
     ["jssjshszs762"] = {Tag = "rosenest_ag8w", Time = "Days: 8"}, -- 11/8/2025
     ["Hiimnew928289alt2"] = {Tag = "rip_v1p", Time = "Days: 12"}, -- 14/8/2025
 
