@@ -211,9 +211,14 @@ local function loadScript()
 end
 
 local playerPremium = premiumUsers[player.Name]
+
 if playerPremium then
-    notify("💳 Premium Loaded! | @" .. playerPremium.Tag .. " | Days:" .. playerPremium.Time)
     blur:Destroy()
+    if playerPremium.Time == "Lifetime" or tonumber(playerPremium.Time) == -1 then
+        notify("💳 Premium Loaded! | @" .. playerPremium.Tag .. " | Time:" .. playerPremium.Time)
+    else
+        notify("💳 Premium Loaded! | @" .. playerPremium.Tag .. " | Days: " .. tostring(playerPremium.Day))
+    end
     loadScript()
 else
     createKeyGui(loadScript)
