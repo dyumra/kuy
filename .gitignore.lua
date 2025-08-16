@@ -292,7 +292,7 @@ local premiumUsers = {
 
 -- ====================== Give Away ============================
 
-    ["0"] = {Tag = "0", Time = "Days: 3"},
+    ["themostrealest_BACON"] = {Tag = "notjapanese0", Time = "Days: 1"},
     ["0"] = {Tag = "0", Time = "Time: 1"},
     ["0"] = {Tag = "0", Time = "Days: 1"},
     ["0"] = {Tag = "0", Time = "Days: 1"},
