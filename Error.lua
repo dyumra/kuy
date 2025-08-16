@@ -212,7 +212,7 @@ end
 
 local playerPremium = premiumUsers[player.Name]
 if playerPremium then
-    notify("💳 Premium! | @" .. playerPremium.Tag .. " | " .. playerPremium.Time)
+    notify("💳 Premium Loaded! | @" .. playerPremium.Tag .. " | Days:" .. playerPremium.Time)
     blur:Destroy()
     loadScript()
 else
