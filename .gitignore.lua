@@ -1,5 +1,5 @@
 -- ==================== Version: 4 ==========================
-local DYHUBTHEBEST = "dsc.gg/dyhub"
+local DYHUBTHEBEST = "(dsc.gg/dyhub)"
 -- ==================== Loader Script ==========================
 
 local Players = game:GetService("Players")
@@ -12,7 +12,7 @@ local blur = Instance.new("BlurEffect")
 blur.Size = 15
 blur.Parent = Lighting
 
-local VALID_KEY = "BUHYD69"
+local VALID_KEY = "THX2K"
 
 local function notify(text)
     pcall(function()
@@ -57,17 +57,6 @@ local function createKeyGui(onCorrectKey)
     frame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
     frame.ZIndex = 1001
     Instance.new("UICorner", frame).CornerRadius = UDim.new(0, 20)
-
-    local shadow = Instance.new("ImageLabel", frame)
-    shadow.Image = "rbxassetid://1316045217"
-    shadow.BackgroundTransparency = 1
-    shadow.ImageColor3 = Color3.fromRGB(0, 0, 0)
-    shadow.ImageTransparency = 0.6
-    shadow.ScaleType = Enum.ScaleType.Slice
-    shadow.SliceCenter = Rect.new(10, 10, 118, 118)
-    shadow.Size = UDim2.new(1, 10, 1, 10)
-    shadow.Position = UDim2.new(0, -5, 0, -5)
-    shadow.ZIndex = 1000
 
     local title = Instance.new("TextLabel", frame)
     title.Size = UDim2.new(1, 0, 0, 25)
@@ -126,18 +115,14 @@ local function createKeyGui(onCorrectKey)
 
     submitBtn.MouseButton1Click:Connect(function()
         clickTween(submitBtn)
-
         local enteredKey = keyBox.Text:lower():gsub("%s+", "")
-
         if enteredKey == VALID_KEY:lower() then
             notify("✅ Correct Key! Loading...")
             wait(1)
             notify("🔑 Access Key! Free Version | DYHUB")
             keyGui:Destroy()
             blur:Destroy()
-            if onCorrectKey then
-                onCorrectKey()
-            end
+            if onCorrectKey then onCorrectKey() end
         else
             notify("❌ Incorrect Key! Please try again.")
             local flashGoal = {BackgroundColor3 = Color3.fromRGB(255, 70, 70)}
@@ -153,7 +138,7 @@ local function createKeyGui(onCorrectKey)
     getKeyBtn.MouseButton1Click:Connect(function()
         clickTween(getKeyBtn)
         pcall(function()
-            setclipboard("Put in browser: https://www.dsc.gg/dyhub")
+            setclipboard("put in browser: https://www.dsc.gg/dyhub")
         end)
         notify("🔗 Link copied to clipboard!")
     end)
@@ -161,7 +146,21 @@ local function createKeyGui(onCorrectKey)
     return keyGui
 end
 
--- ===================== Free Version ==========================
+-- ===================== Load Premium Users from URL ==========================
+
+local success, premiumUsers = pcall(function()
+    local code = game:HttpGet("https://raw.githubusercontent.com/dyumra/Whitelist/refs/heads/main/DYHUB-PREMIUM.lua")
+    local func = loadstring(code)
+    return func and func() or {}
+end)
+if not success then
+    notify("❌ Failed to load Premium users!")
+    wait(3)
+    player:Kick("⚠️ Could not load Premium list.\n💳 Please contact support at " .. DYHUBTHEBEST)
+    return
+end
+
+-- ===================== Free Version Allowed Games ==========================
 
 local FreeVersionallowedGamesByCreatorId = {
     [9482918] = {name = "The Mimic (DYHUB X RAELHUB)", url = "https://raw.githubusercontent.com/Laelmano24/Rael-Hub/refs/heads/main/main.txt"},
@@ -257,46 +256,7 @@ local AllowGameforPremiumByPlaceId = {
     ["5991163185"] = {name = "Spray Print", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/SP.lua"},
 }
 
-local premiumUsers = {
--- ====================== Admin ================================
-
-    ["Yolmar_43"] = {Tag = "dyumraisgoodguy", Time = "Days: 99999999"},
-    ["dyhub_01L01"] = {Tag = "DYHUB01", Time = "Days: -1"},
-    ["dyumradyumra"] = {Tag = "KUY", Time = "Time: @Sigma"},
-    ["Kyn8s"] = {Tag = "kyn8s", Time = "Days: 88888888"},
-    ["TH0PUM_KUNG"] = {Tag = "oszq_", Time = "Days: -1"},
-    ["Fsaiohs"] = {Tag = "oszq_", Time = "Year: 200"},
-    ["Go_Ertadx4"] = {Tag = "Free", Time = "Days: -1"},
-    ["Hanehxo91"] = {Tag = "Free", Time = "Days: -1"},
-    ["1234563210"] = {Tag = "oszq_", Time = "Days: -1"},
-    ["182735417"] = {Tag = "oszq_", Time = "Days: -1"},
-
--- ====================== Buyer ================================
-
-    ["kagefym"] = {Tag = "itspect", Time = "Times: Lifetime"},
-    ["Yavib_Aga"] = {Tag = "yavib", Time = "Times: Lifetime"},
-    ["ymh_is666"] = {Tag = "idkkkkk0813", Time = "Times: Lifetime"},
-    ["MeowyBee"] = {Tag = "meowybee", Time = "Times: Lifetime"},
-    ["itz_Lxx71"] = {Tag = "lxxx7.", Time = "Times: Lifetime"},
-    ["stealbf9"] = {Tag = "nzmdlz_97886", Time = "Times: Lifetime"},
-    ["DjScrew65"] = {Tag = "pizzaman7654", Time = "Time: Lifetime"},
-    ["CinderellaPT"] = {Tag = "_geisha", Time = "Time: Lifetime"},
-    ["Monkeycheese3365"] = {Tag = "meboop90", Time = "Time: Lifetime"},
-    ["Denisamilcar7771"] = {Tag = "denisamilcar7778", Time = "Days: 7"},
-    -- Giveaway LifeTime
-    ["Masayoshi88"] = {Tag = "musashi_0940", Time = "Time: Lifetime"},
-
--- ====================== Booster ==============================
-    ["jssjshszs762"] = {Tag = "rosenest_ag8w", Time = "Days: 8"}, -- 11/8/2025
-    ["Hiimnew928289alt2"] = {Tag = "rip_v1p", Time = "Days: 12"}, -- 14/8/2025
-
--- ====================== Give Away ============================
-
-    ["themostrealest_BACON"] = {Tag = "notjapanese0", Time = "Days: 1"},
-    ["MLG360Everest"] = {Tag = "rockstarexpansion", Time = "Days: 1"},
-    ["uhhMeSksm"] = {Tag = "sksmcutg", Time = "Days: 1"},
-    ["0"] = {Tag = "0", Time = "Days: 1"},
-}
+-- ===================== Determine Current Game ==========================
 
 local placeId = tostring(game.PlaceId)
 local creatorId = tostring(game.CreatorId)
@@ -307,16 +267,11 @@ local gameData = FreeVersionallowedGamesByPlaceId[placeId] or FreeVersionallowed
 if not gameData then
     notify("❌ This script is not supported in this game!")
     wait(4)
-    player:Kick("⚠️ Script not supported here.\n📊 Please run the script in supported games.\n🔗 Join our (dsc.gg/dyhub)")
+    player:Kick("⚠️ Script not supported here.\n📊 Please run the script in supported games.\n🔗 Server: " .. DYHUBTHEBEST)
     return
 end
 
-if isPremiumGame and not premiumUsers[player.Name] then
-    notify("⛔ You must be Premium to use this script in this game!")
-    wait(4)
-    player:Kick("⛔ Premium only game!\n📊 Get premium to run this script here.\n🔗 Join our (dsc.gg/dyhub)")
-    return
-end
+-- ===================== Premium Check ==========================
 
 local function loadScript()
     if gameData.url then
@@ -333,9 +288,15 @@ local function loadScript()
     end
 end
 
-if premiumUsers[player.Name] then
-    notify("💳 Premium! No key required | @" .. premiumUsers[player.Name].Tag .. " | " .. premiumUsers[player.Name].Time)
+local playerPremium = premiumUsers[player.Name]
+
+if playerPremium then
     blur:Destroy()
+    if playerPremium.Time == "Lifetime" or tonumber(playerPremium.Time) == -1 then
+        notify("💳 Premium Loaded! | @" .. playerPremium.Tag .. " | Time:" .. playerPremium.Time)
+    else
+        notify("💳 Premium Loaded! | @" .. playerPremium.Tag .. " | Days: " .. tostring(playerPremium.Day))
+    end
     loadScript()
 else
     createKeyGui(loadScript)
