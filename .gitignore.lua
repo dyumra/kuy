@@ -1,4 +1,4 @@
--- ==================== Version: 2.55 ==========================
+-- ==================== Version: 3 ==========================
 local DYHUBTHEBEST = "dsc.gg/dyhub"
 -- ==================== Loader Script ==========================
 
@@ -293,7 +293,7 @@ local premiumUsers = {
 -- ====================== Give Away ============================
 
     ["themostrealest_BACON"] = {Tag = "notjapanese0", Time = "Days: 1"},
-    ["0"] = {Tag = "0", Time = "Time: 1"},
+    ["MLG360Everest"] = {Tag = "rockstarexpansion", Time = "Days: 1"},
     ["0"] = {Tag = "0", Time = "Days: 1"},
     ["0"] = {Tag = "0", Time = "Days: 1"},
 }
