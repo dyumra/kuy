@@ -1,6 +1,6 @@
 -- ==================== Version: 5 ==========================
 local DYHUBTHEBEST = "(dsc.gg/dyhub)"
--- ==================== Loader Script ==========================
+-- =================== Loader Script ==========================
 
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
@@ -216,6 +216,8 @@ local allowedGamesforPremiumByCreatorId = {
     [2564897] = {name = "Dinosaur Simulator [Check]", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/dinosaursimulator.lua"},
     [35873946] = {name = "Bomb A Friend", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/BOMBAF.lua"},
     [35815907] = {name = "Steal A Brainrot", url = "https://get-arvotheon-ontop.netlify.app/Loader.lua"},
+    [15009415] = {name = "Anime Ranger X", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/arx.lua"},
+    [35154829] = {name = "Anime Power", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/ap.lua"},
     [35789249] = {name = "Grow a Garden", url = "https://raw.githubusercontent.com/H4xScripts/Loader/refs/heads/main/loader.lua"},
     [3461453] = {name = "Rivals", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/RIVALS.lua"},
     [278905007] = {name = "Build My Car", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/BMC.lua"},
