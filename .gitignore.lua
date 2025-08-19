@@ -216,6 +216,7 @@ local allowedGamesforPremiumByCreatorId = {
     [2564897] = {name = "Dinosaur Simulator [Check]", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/dinosaursimulator.lua"},
     [35873946] = {name = "Bomb A Friend", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/BOMBAF.lua"},
     [35815907] = {name = "Steal A Brainrot", url = "https://get-arvotheon-ontop.netlify.app/Loader.lua"},
+    [15491373] = {name = "Container RNG", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/Container%20RNG.lua"},
     [35888785] = {name = "Prospecting", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/Prospecting.lua"},
     [14502869] = {name = "Kaizen Battlegrounds", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/Kaizenb.lua"},
     [33859442] = {name = "Anime Royale", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/Aroyal.lua"},
