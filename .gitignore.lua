@@ -279,6 +279,13 @@ end
 
 -- ===================== Premium Check ==========================
 
+if isPremiumGame and not premiumUsers[player.Name] then
+    notify("⛔ You must be Premium to use this script in this game!")
+    wait(4)
+    player:Kick("⛔ Premium only game!\n📊 Get premium to run this script here.\n🔗 Join our (dsc.gg/dyhub)")
+    return
+end
+
 local function loadScript()
     if gameData.url then
         local success, err = pcall(function()
