@@ -153,6 +153,7 @@ local success, premiumUsers = pcall(function()
     local func = loadstring(code)
     return func and func() or {}
 end)
+
 if not success then
     notify("❌ Failed to load Premium users!")
     wait(3)
@@ -265,10 +266,14 @@ local AllowGameforPremiumByPlaceId = {
 -- ===================== Determine Current Game ==========================
 
 local placeId = tostring(game.PlaceId)
-local creatorId = tostring(game.CreatorId)
+local creatorId = tonumber(game.CreatorId)
 
-local isPremiumGame = (AllowGameforPremiumByPlaceId[placeId] ~= nil) or (allowedGamesforPremiumByCreatorId[tonumber(creatorId)] ~= nil) or (FreeVersionallowedGamesByPlaceId[placeId] ~= nil) or (FreeVersionallowedGamesByCreatorId[tonumber(creatorId)] ~= nil)
-local gameData = FreeVersionallowedGamesByPlaceId[placeId] or FreeVersionallowedGamesByCreatorId[tonumber(creatorId)] or allowedGamesforPremiumByCreatorId[tonumber(creatorId)] or AllowGameforPremiumByPlaceId[placeId]
+-- ===================== Game Data ==========================
+local freeGameData = FreeVersionallowedGamesByPlaceId[placeId] or FreeVersionallowedGamesByCreatorId[creatorId]
+local premiumGameData = AllowGameforPremiumByPlaceId[placeId] or allowedGamesforPremiumByCreatorId[creatorId]
+
+-- รวมเป็น gameData
+local gameData = freeGameData or premiumGameData
 
 if not gameData then
     notify("❌ This script is not supported in this game!")
@@ -278,14 +283,18 @@ if not gameData then
 end
 
 -- ===================== Premium Check ==========================
+local playerPremium = premiumUsers[player.Name]
 
-if isPremiumGame and not premiumUsers[player.Name] then
+-- ถ้าเป็น free game → ทุกคนใช้ได้
+-- ถ้าเป็น premium game → ต้อง premium เท่านั้น
+if premiumGameData and not playerPremium then
     notify("⛔ You must be Premium to use this script in this game!")
     wait(4)
     player:Kick("⛔ Premium only game!\n📊 Get premium to run this script here.\n🔗 Join our (dsc.gg/dyhub)")
     return
 end
 
+-- ===================== Script Loader ==========================
 local function loadScript()
     if gameData.url then
         local success, err = pcall(function()
@@ -301,8 +310,7 @@ local function loadScript()
     end
 end
 
-local playerPremium = premiumUsers[player.Name]
-
+-- ===================== Premium Message ==========================
 if playerPremium then
     blur:Destroy()
     if playerPremium.Time == "Lifetime" or tonumber(playerPremium.Time) == -1 then
@@ -312,5 +320,6 @@ if playerPremium then
     end
     loadScript()
 else
+    -- ถ้าไม่พรีเมียม แต่เกมนั้นเป็น Free ก็ให้เปิด Key GUI
     createKeyGui(loadScript)
 end
