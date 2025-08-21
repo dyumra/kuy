@@ -1,4 +1,4 @@
--- ==================== Version: 1.8 ==========================
+-- ==================== Version: 1.9 ==========================
 local DYHUBTHEBEST = "(dsc.gg/dyhub)"
 -- =================== Loader Script ==========================
 
@@ -166,6 +166,7 @@ local FreeVersionallowedGamesByCreatorId = {
     [9482918] = {name = "The Mimic (DYHUB X RAELHUB)", url = "https://raw.githubusercontent.com/Laelmano24/Rael-Hub/refs/heads/main/main.txt"},
     [6042520] = {name = "99 Nights in the Forest", url = "https://raw.githubusercontent.com/dyumra/99NIGHT/refs/heads/main/Real.lua"},
     [12832037] = {name = "Baddies", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/BBdie.lua"},
+    [35888785] = {name = "Prospecting", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/Prospecting.lua"},
     [35786254] = {name = "Mines", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/Mine.lua"},
     [6022628] = {name = "ST : Blockade Battlefront", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/Stbb.lua"},
     [12398672] = {name = "Ink Game", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/inkgame.lua"},
@@ -217,7 +218,6 @@ local allowedGamesforPremiumByCreatorId = {
     [35873946] = {name = "Bomb A Friend", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/BOMBAF.lua"},
     [35815907] = {name = "Steal A Brainrot", url = "https://get-arvotheon-ontop.netlify.app/Loader.lua"},
     [15491373] = {name = "Container RNG", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/Container%20RNG.lua"},
-    [35888785] = {name = "Prospecting", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/Prospecting.lua"},
     [14502869] = {name = "Kaizen Battlegrounds", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/Kaizenb.lua"},
     [33859442] = {name = "Anime Royale", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/Aroyal.lua"},
     [15009415] = {name = "Anime Ranger X", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/arx.lua"},
