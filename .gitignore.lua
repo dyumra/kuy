@@ -1,4 +1,4 @@
--- ==================== Version: 3.1 ==========================
+-- ==================== Version: 4.1 ==========================
 local DYHUBTHEBEST = "(dsc.gg/dyhub)"
 -- =================== Loader Script ==========================
 
@@ -12,7 +12,7 @@ local blur = Instance.new("BlurEffect")
 blur.Size = 15
 blur.Parent = Lighting
 
-local VALID_KEY = "sybaudyhub"
+local VALID_KEY = "reyosgnik"
 
 local function notify(text)
     pcall(function()
