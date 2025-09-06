@@ -214,6 +214,7 @@ local FreeVersionallowedGamesByPlaceId = {
     
 local allowedGamesforPremiumByCreatorId = {
     [3049798] = {name = "Doors", url = "https://raw.githubusercontent.com/KINGHUB01/BlackKing-obf/main/Doors%20Blackking%20And%20BobHub"},
+    [4372130] = {name = "Blox Fruits", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/bfv2.lua"},
     [5292947] = {name = "ASTD X", url = "https://raw.githubusercontent.com/bunnnwee/JimiHub/refs/heads/main/ASTDX-Normal"},
     [9950771] = {name = "Slap Battles", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/slap-battle.lua"},
     [35568770] = {name = "Fight Anime Bosses", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/anime-boss-raid.lua"},
