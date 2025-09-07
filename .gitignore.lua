@@ -1,4 +1,4 @@
--- ==================== Version: 4.4 ==========================
+-- ==================== Version: 4.5 ==========================
 local DYHUBTHEBEST = "(dsc.gg/dyhub)"
 -- =================== Loader Script ==========================
 
@@ -220,7 +220,7 @@ local allowedGamesforPremiumByCreatorId = {
     [35568770] = {name = "Fight Anime Bosses", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/anime-boss-raid.lua"},
     [2564897] = {name = "Dinosaur Simulator [Check]", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/dinosaursimulator.lua"},
     [35873946] = {name = "Bomb A Friend", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/BOMBAF.lua"},
-    [35815907] = {name = "Steal A Brainrot", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/sabss.lua"},
+    [35815907] = {name = "Steal A Brainrot", url = "https://api.luarmor.net/files/v3/loaders/53325754de16c11fbf8bf78101c1c881.lua"},
     [3104358] = {name = "Brookhaven RP", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/BrookHaven.lua"},
     [7513662] = {name = "KAT X", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/kat.lua"},
     [4217910] = {name = "Tower of Hell", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/Towerofhell.lua"},
