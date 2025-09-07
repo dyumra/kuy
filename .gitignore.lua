@@ -1,4 +1,4 @@
--- ==================== Version: 4.5 ==========================
+-- ======================= V5172 ==============================
 local DYHUBTHEBEST = "(dsc.gg/dyhub)"
 -- =================== Loader Script ==========================
 
@@ -263,7 +263,6 @@ local AllowGameforPremiumByPlaceId = {
     ["136372246050123"] = {name = "Stick Battles", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/main/STICKBATTLE.lua"},
     ["89744231770777"] = {name = "Dead Spells", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/DS.lua"},
     ["142823291"] = {name = "Murder Mystery 2", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/Mm2dyhubv22.lua"},
-    ["109983668079237"] = {name = "Steal a Brainrot", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/sabss.lua"},
     ["95702387256198"] = {name = "Steal a Car", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/SAC.lua"},
     ["11276071411"] = {name = "Be NPC or DIE", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/BeNpcOrDie.lua"},
     ["126244816328678"] = {name = "DIG", url = "https://raw.githubusercontent.com/PlayzlxD0tmatter/DIG-SCRIPT-ZERO/refs/heads/main/dig.md"},
