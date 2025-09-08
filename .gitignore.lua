@@ -1,4 +1,4 @@
--- ======================= V5192 ==============================
+-- ======================= V5193 ==============================
 local DYHUBTHEBEST = "(dsc.gg/dyhub)"
 -- =================== Loader Script ==========================
 
@@ -201,6 +201,7 @@ local FreeVersionallowedGamesByPlaceId = {
     ["17126500142"] = {name = "Abyss Miner", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/AbssyMiner.lua"},
     ["99013571721937"] = {name = "Aether Adventure", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/AeA.lua"},
     ["139143597034555"] = {name = "+1 Speed Prison Escape [🦑]", url = "https://pastebin.com/raw/RKPm9zJB"},
+    ["119048529960596"] = {name = "Restaurant Tycoon 3", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/rt3.lua"},
     ["124180759222403"] = {name = "Ants", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/Ant"},
     ["17357719939"] = {name = "Wizard West", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/Ww.lua"},
     ["116495829188952"] = {name = "Dead Rails", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/Drlobby.lua"},
@@ -254,7 +255,6 @@ local AllowGameforPremiumByPlaceId = {
     ["72992062125248"] = {name = "Hunters", url = "https://raw.githubusercontent.com/LawrenceLud/Templo/refs/heads/main/TemploLoader.lua"},
     ["133781619558477"] = {name = "Steal a K-Pop Demon Hunter", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/Sakph.lua"},
     ["10260193230"] = {name = "Meme Sea", url = "https://gitlab.com/Lmy77/menu/-/raw/main/infinityx"},
-    ["119048529960596"] = {name = "Restaurant Tycoon 3", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/rt3.lua"},
     ["88728793053496"] = {name = "Build A Car", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/BaC.lua"},
     ["133487110685834"] = {name = "4KING CUTIE", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/4KING"},
     ["104965156633249"] = {name = "Poop", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/Poop"},
