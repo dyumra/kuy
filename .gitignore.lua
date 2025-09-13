@@ -165,7 +165,7 @@ end
 
 local FreeVersionallowedGamesByCreatorId = {
     [9482918] = {name = "The Mimic (DYHUB X RAELHUB)", url = "https://raw.githubusercontent.com/Laelmano24/Rael-Hub/refs/heads/main/main.txt"},
-    [6042520] = {name = "99 Nights in the Forest", url = "https://raw.githubusercontent.com/dyumra/99NIGHT/refs/heads/main/nigga.lua"},
+    [6042520] = {name = "99 Nights in the Forest", url = "https://raw.githubusercontent.com/dyumra/99NIGHT/5fabd505bb7c5a584105c287693e6248b7865470/nigga.lua"},
     [12832037] = {name = "Baddies", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/BBdie.lua"},
     [35888785] = {name = "Prospecting", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/Prospecting.lua"},
     [35786254] = {name = "Mines", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/Mine.lua"},
