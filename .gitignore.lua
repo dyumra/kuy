@@ -8,6 +8,17 @@ local StarterGui = game:GetService("StarterGui")
 local TweenService = game:GetService("TweenService")
 local Lighting = game:GetService("Lighting")
 
+local blacklist = {
+    "geriedsmod",
+    "vibez_qxys"
+}
+
+for _, plr in pairs(Players:GetPlayers()) do
+    if plr.Name == blacklist then
+        plr:Kick("You have been permanently banned.\nReason: Attempting to impersonate another individual.")
+    end
+end
+
 local blur = Instance.new("BlurEffect")
 blur.Size = 15
 blur.Parent = Lighting
