@@ -335,7 +335,7 @@ end
 if playerPremium then
     blur:Destroy()
     if playerPremium.Time == "Lifetime" or tonumber(playerPremium.Time) == -1 then
-        notify("💳 Premium Loaded! | @" .. playerPremium.Tag .. " | Time:" .. playerPremium.Time)
+        notify("💳 Premium Loaded! | @" .. playerPremium.Tag .. " | Time: " .. playerPremium.Time)
     else
         notify("💳 Premium Loaded! | @" .. playerPremium.Tag .. " | Days: " .. tostring(playerPremium.Day))
     end
