@@ -1,4 +1,4 @@
--- ======================= V5121 ==============================
+-- ======================= V5122 ==============================
 local DYHUBTHEBEST = "(dsc.gg/dyhub)"
 -- =================== Loader Script ==========================
 
@@ -181,6 +181,7 @@ local FreeVersionallowedGamesByCreatorId = {
     [35888785] = {name = "Prospecting", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/Prospecting.lua"},
     [35786254] = {name = "Mines", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/Mine.lua"},
     [35815576] = {name = "Schedule 🥔", url = "https://pastebin.com/raw/gCSmFnbb"},
+    [8818124] = {name = "Violence District", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/Hahauahhwuwkmakjaja.lua"},
     [6022628] = {name = "ST : Blockade Battlefront", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/STBB/test.lua"},
     [12398672] = {name = "Ink Game", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/inkgame.lua"},
 }
@@ -245,8 +246,7 @@ local allowedGamesforPremiumByCreatorId = {
     [33859442] = {name = "Anime Royale", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/Aroyal.lua"},
     [15009415] = {name = "Anime Ranger X", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/arx.lua"},
     [35154829] = {name = "Anime Power", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/ap.lua"},
-    [35789249] = {name = "Grow a Garden", url = "https://raw.githubusercontent.com/dyumra/GAG/refs/heads/main/GAG.lua"},
-    [8818124] = {name = "Violence District", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/Hahauahhwuwkmakjaja.lua"},  
+    [35789249] = {name = "Grow a Garden", url = "https://raw.githubusercontent.com/dyumra/GAG/refs/heads/main/GAG.lua"},  
     [3461453] = {name = "Rivals", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/RIVALS.lua"},
     [278905007] = {name = "Build My Car", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/BMC.lua"},
     [34873522] = {name = "Anime Eternal", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/Anime-Eternal.lua"},
