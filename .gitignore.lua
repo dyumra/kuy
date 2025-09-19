@@ -246,6 +246,7 @@ local allowedGamesforPremiumByCreatorId = {
     [15009415] = {name = "Anime Ranger X", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/arx.lua"},
     [35154829] = {name = "Anime Power", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/ap.lua"},
     [35789249] = {name = "Grow a Garden", url = "https://raw.githubusercontent.com/dyumra/GAG/refs/heads/main/GAG.lua"},
+    [8818124] = {name = "Violence District", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/d4aa292ee89ce58d10af28d576e14a6612e856e2/Vd.lua"},  
     [3461453] = {name = "Rivals", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/RIVALS.lua"},
     [278905007] = {name = "Build My Car", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/BMC.lua"},
     [34873522] = {name = "Anime Eternal", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/Anime-Eternal.lua"},
