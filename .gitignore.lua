@@ -1,4 +1,4 @@
--- ======================= V5125 ==============================
+-- ======================= V5126 ==============================
 local DYHUBTHEBEST = "(dsc.gg/dyhub)"
 -- =================== Loader Script ==========================
 
@@ -175,6 +175,7 @@ end
 -- ===================== Free Version Allowed Games ==========================
 
 local FreeVersionallowedGamesByCreatorId = {
+    [34869880] = {name = "Plants Vs Brainrots", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/Pvsb.lua"},
     [9482918] = {name = "The Mimic (DYHUB X RAELHUB)", url = "https://raw.githubusercontent.com/Laelmano24/Rael-Hub/refs/heads/main/main.txt"},
     [6042520] = {name = "99 Nights in the Forest", url = "https://raw.githubusercontent.com/dyumra/99NIGHT/refs/heads/main/Gagga.lua"},
     [12832037] = {name = "Baddies", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/BBdie.lua"},
@@ -227,7 +228,6 @@ local FreeVersionallowedGamesByPlaceId = {
 -- ===================== Premium Version ==========================
     
 local allowedGamesforPremiumByCreatorId = {
-    [34869880] = {name = "Plants Vs Brainrots", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/Pvsb.lua"},
     [3049798] = {name = "Doors", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/door.lua"},
     [4372130] = {name = "Blox Fruits", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/bfv2.lua"},
     [5292947] = {name = "ASTD X", url = "https://raw.githubusercontent.com/bunnnwee/JimiHub/refs/heads/main/ASTDX-Normal"},
