@@ -1,4 +1,4 @@
--- ======================= V5126 ==============================
+-- ======================= V5127 ==============================
 local DYHUBTHEBEST = "(dsc.gg/dyhub)"
 -- =================== Loader Script ==========================
 
@@ -228,6 +228,7 @@ local FreeVersionallowedGamesByPlaceId = {
 -- ===================== Premium Version ==========================
     
 local allowedGamesforPremiumByCreatorId = {
+    [36008925] = {name = "Build a Zoo", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/Baz.lua"},
     [3049798] = {name = "Doors", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/door.lua"},
     [4372130] = {name = "Blox Fruits", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/bfv2.lua"},
     [5292947] = {name = "ASTD X", url = "https://raw.githubusercontent.com/bunnnwee/JimiHub/refs/heads/main/ASTDX-Normal"},
