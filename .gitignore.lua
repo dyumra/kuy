@@ -1,4 +1,4 @@
--- ======================= V5131 ==============================
+-- ======================= V5132 ==============================
 local DYHUBTHEBEST = "(dsc.gg/dyhub)"
 -- =================== Loader Script ==========================
 
@@ -201,8 +201,8 @@ local FreeVersionallowedGamesByPlaceId = {
     ["221718525"] = {name = "Ninja Tycoon", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/NT.lua"},
     ["74392180661358"] = {name = "Grow a Mine", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/GAM.lua"},
     ["113809264674979"] = {name = "Steal a Sword", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/SAS.lua"},
-    ["14940775218"] = {name = "No-Scope Arcade (2021)", url = "https://pastebin.com/raw/0xcSxSW4"},
-    ["6407649031"] = {name = "No-Scope Arcade", url = "https://pastebin.com/raw/0xcSxSW4"},
+    ["14940775218"] = {name = "No-Scope Arcade (2021)", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/Camlock.lua"},
+    ["6407649031"] = {name = "No-Scope Arcade", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/Camlock.lua"},
     ["8260276694"] = {name = "Ability Wars", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/Ability-War.lua"},
     ["3623096087"] = {name = "Muscle Legends", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/Muscle%20Legends.lua"},
     ["81968724698850"] = {name = "Loot Fish", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/LF.lua"},
@@ -297,7 +297,6 @@ local creatorId = tonumber(game.CreatorId)
 local freeGameData = FreeVersionallowedGamesByPlaceId[placeId] or FreeVersionallowedGamesByCreatorId[creatorId]
 local premiumGameData = AllowGameforPremiumByPlaceId[placeId] or allowedGamesforPremiumByCreatorId[creatorId]
 
--- รวมเป็น gameData
 local gameData = freeGameData or premiumGameData
 
 if not gameData then
@@ -310,8 +309,6 @@ end
 -- ===================== Premium Check ==========================
 local playerPremium = premiumUsers[player.Name]
 
--- ถ้าเป็น free game → ทุกคนใช้ได้
--- ถ้าเป็น premium game → ต้อง premium เท่านั้น
 if premiumGameData and not playerPremium then
     notify("⛔ You must be Premium to use this script in this game!")
     wait(4)
@@ -345,6 +342,5 @@ if playerPremium then
     end
     loadScript()
 else
-    -- ถ้าไม่พรีเมียม แต่เกมนั้นเป็น Free ก็ให้เปิด Key GUI
     createKeyGui(loadScript)
 end
