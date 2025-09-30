@@ -1,5 +1,5 @@
 -- ======================= V5143 ==============================
-local DYHUBTHEBEST = "(dsc.gg/dyhub)"
+local DYHUBTHEBEST = "https://dsc.gg/dyhub"
 -- =================== Loader Script ==========================
 
 local Players = game:GetService("Players")
