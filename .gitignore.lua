@@ -1,4 +1,4 @@
--- ======================= V5143 ==============================
+-- ======================= V5144 ==============================
 local DYHUBTHEBEST = "https://dsc.gg/dyhub"
 -- =================== Loader Script ==========================
 
@@ -229,6 +229,7 @@ local FreeVersionallowedGamesByPlaceId = {
 -- ===================== Premium Version ==========================
     
 local allowedGamesforPremiumByCreatorId = {
+    [11392290] = {name = "Cut Trees", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/CT.lua"},  
     [35595896] = {name = "Build ur Base", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/Bub.lua"},
     [36008925] = {name = "Build a Zoo", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/Baz.lua"},
     [3049798] = {name = "Doors", url = "https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/door.lua"},
